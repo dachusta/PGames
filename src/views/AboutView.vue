@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="content">
     <div class="sidebar">
       <div class="logo">PGames</div>
       <nav class="nav">
@@ -20,9 +20,14 @@
         </div>
       </header>
       <main class="main">
-        <div class="game-item">
-          <img src="" alt="">
-          <div class="name"></div>
+        <div
+          class="game-item"
+          v-for="game in gameList"
+          :key="game.id"
+        >
+          <!-- <img :src="game.background_image" alt=""> -->
+          <img :src="game.short_screenshots[0].image" alt="">
+          <div class="name">{{ game.id }} >>> {{ game.name }}</div>
           <div class="description"></div>
         </div>
       </main>
@@ -32,8 +37,9 @@
 
 <script setup>
 // import { ref, onMounted, watch, toRefs, computed, method } from 'vue'
-import { onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 
+const gameList = ref([])
 // const repositoriesMatchingSearchQuery = computed(() => {
 //   return repositories.value.filter(
 //     repository => repository.name.includes(searchQuery.value)
@@ -45,12 +51,50 @@ async function api () {
   const response = await fetch(url)
   const commits = await response.json()
   console.log(commits)
-  return commits
+  gameList.value = commits.results
 }
-onMounted(api)
+onMounted(api())
 
 </script>
 
 <style lang="scss" scoped>
+.content {
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  color: #CBDBEE;
+}
+.sidebar {
+  background: #27293F;
+  padding: 10px;
+  .logo {
+    position: sticky;
+    top: 10px;
+  }
+  .nav {
+    position: sticky;
+    top: 28px;
+  }
+}
+.page {
+  background: #1C1C2C;
+  padding: 30px;
+}
+.header {
+  height: 160px;
+}
+.main {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 30px;
+}
+@media (max-width: 1655px) {
+  .main {
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 30px;
+  }
+}
+.game-item img {
+  width: 307px;
+}
 
 </style>
