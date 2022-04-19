@@ -14,8 +14,16 @@
       <header class="header">
         <div class="title"></div>
         <div class="control-bar">
-          <div class="search"></div>
-          <div class="sort"></div>
+          <div class="search">
+            <input type="text">
+          </div>
+          <div class="sort">
+            <select name="" id="">
+              <option value="">1</option>
+              <option value="">2</option>
+              <option value="">3</option>
+            </select>
+          </div>
           <div class="display-mode"></div>
         </div>
       </header>
@@ -27,8 +35,18 @@
         >
           <!-- <img :src="game.background_image" alt=""> -->
           <img :src="game.short_screenshots[0].image" alt="">
-          <div class="name">{{ game.id }} >>> {{ game.name }}</div>
+          <div class="name">{{ game.name }}</div>
+          <div class="rating"></div>
           <div class="description"></div>
+          <div class="platform-list">
+            <span
+              class="platform-item"
+              v-for="platform in game.parent_platforms"
+              :key="platform"
+            >
+              {{ platform.platform.name }}
+            </span>
+          </div>
         </div>
       </main>
     </div>
@@ -93,8 +111,34 @@ onMounted(api())
     gap: 30px;
   }
 }
+.game-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: #3C4464;
+}
 .game-item img {
-  width: 307px;
+  width: 100%;
+  height: calc(100% - 95px);
+  object-fit: cover;
+}
+.game-item .name {
+  font-size: 18px;
+}
+.platform-list {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin: 5px;
+  align-self: flex-end;
+}
+.platform-item {
+  display: block;
+  font-size: 14px;
+  padding: 3px 5px 3px 5px;
+  background: #1C1C2C;
+  border-radius: 5px;
 }
 
 </style>
