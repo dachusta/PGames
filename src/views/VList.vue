@@ -29,20 +29,26 @@
       </header>
       <main class="main">
         <div
-          class="game-item"
+          class="card game-item"
           v-for="game in gameList"
           :key="game.id"
+          @click="gameItem(game.id)"
         >
           <!-- <img :src="game.background_image" alt=""> -->
-          <img :src="game.short_screenshots[0].image" alt="">
-          <div class="row">
-            <span class="name">{{ game.name }}</span>
-            <span
-              class="rating"
-              :style="{ background: ratingBG(game.rating) }"
-            >{{ game.rating }}</span>
+          <div class="card-top">
+
+            <div class="wrap-img">
+              <img :src="game.short_screenshots[0].image" alt="">
+            </div>
+            <div class="row">
+              <span class="name">{{ game.name }}</span>
+              <span
+                class="rating"
+                :style="{ background: ratingBG(game.rating) }"
+              >{{ game.rating }}</span>
+            </div>
           </div>
-          <div class="description"></div>
+          <!-- <div class="description"></div> -->
           <div class="platform-list">
             <span
               class="platform-item"
@@ -61,6 +67,9 @@
 <script setup>
 // import { ref, onMounted, watch, toRefs, computed, method } from 'vue'
 import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 const gameList = ref([])
 // const repositoriesMatchingSearchQuery = computed(() => {
@@ -70,11 +79,11 @@ const gameList = ref([])
 // })
 function ratingBG (params) {
   if (params > 4) {
-    return 'green'
+    return 'rgb(50 255 50 / 70%)'
   } else if (params > 3) {
-    return 'yellow'
+    return 'rgb(255 255 50 / 70%)'
   } else {
-    return 'red'
+    return 'rgb(255 50 50 / 70%)'
   }
 }
 
@@ -86,6 +95,10 @@ async function api () {
   gameList.value = commits.results
 }
 onMounted(api())
+
+function gameItem (id) {
+  router.push({ name: 'VItem', params: { id: id } })
+}
 
 </script>
 
@@ -129,12 +142,23 @@ onMounted(api())
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  height: 300px;
   background: #3C4464;
   gap: 5px;
+  border-radius: 10px;
+}
+.game-item  .card-top {
+ display: flex;
+ flex-direction: column;
+ gap: 10px;
+}
+.game-item .wrap-img {
+  width: 100%;
+  height: 175px;
 }
 .game-item img {
   width: 100%;
-  height: calc(100% - 95px);
+  height: 100%;
   object-fit: cover;
 }
 .row {
@@ -146,10 +170,12 @@ onMounted(api())
   font-size: 18px;
 }
 .game-item .rating {
-  font-size: 14px;
-  background: #000;
-  color: #000;
-  padding: 5px;
+  font-size: 12px;
+  background: #1c1c2c;
+  color: #1c1c2c;
+  padding: 3px 5px;
+  border-radius: 5px;
+  font-weight: 700;
   align-self: flex-start;
   // text-shadow: #000 0px 0px 2px;
 }
