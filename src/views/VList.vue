@@ -35,8 +35,13 @@
         >
           <!-- <img :src="game.background_image" alt=""> -->
           <img :src="game.short_screenshots[0].image" alt="">
-          <div class="name">{{ game.name }}</div>
-          <div class="rating"></div>
+          <div class="row">
+            <span class="name">{{ game.name }}</span>
+            <span
+              class="rating"
+              :style="{ background: ratingBG(game.rating) }"
+            >{{ game.rating }}</span>
+          </div>
           <div class="description"></div>
           <div class="platform-list">
             <span
@@ -63,6 +68,15 @@ const gameList = ref([])
 //     repository => repository.name.includes(searchQuery.value)
 //   )
 // })
+function ratingBG (params) {
+  if (params > 4) {
+    return 'green'
+  } else if (params > 3) {
+    return 'yellow'
+  } else {
+    return 'red'
+  }
+}
 
 async function api () {
   const url = 'https://api.rawg.io/api/games?key=8f4899e2e65a42e58807bc9bbec35cca&page=1&page_size=40'
@@ -116,14 +130,28 @@ onMounted(api())
   flex-direction: column;
   justify-content: space-between;
   background: #3C4464;
+  gap: 5px;
 }
 .game-item img {
   width: 100%;
   height: calc(100% - 95px);
   object-fit: cover;
 }
+.row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0px 5px;
+}
 .game-item .name {
   font-size: 18px;
+}
+.game-item .rating {
+  font-size: 14px;
+  background: #000;
+  color: #000;
+  padding: 5px;
+  align-self: flex-start;
+  // text-shadow: #000 0px 0px 2px;
 }
 .platform-list {
   display: flex;
