@@ -6,6 +6,11 @@
   >
     <header class="header">
       <div class="name">{{ gameItem.name }}</div>
+
+      <div class="rating">
+        <div class="name">Rating: {{ gameItem.rating }}</div>
+        <div class="name">Metacritic: {{ gameItem.metacritic }}</div>
+      </div>
     </header>
     <div class="wrap left screenshots-list?">
         <!-- v-for="screenshot in gameScreenshots.results" -->
@@ -16,12 +21,30 @@
       />
     </div>
     <div class="right">
-      <div class="description">{{ gameItem.description_raw }}</div>
+      <div class="description">
+        <div class="container">
+          <img class="description-img" :src="gameItem.background_image" alt="">
+        </div>
+        <p class="description-text">{{ gameItem.description_raw }}</p>
+      </div>
+    </div>
+    <main class="main">
+      1
+    </main>
+    <div class="right-bar">
       <div class="name">Released: {{ gameItem.released }}</div>
       <div class="name">Updated: {{ gameItem.updated }}</div>
       <div class="name">Esrb rating: {{ gameItem.esrb_rating.name }}</div>
       <!-- <div class="name">{{ gameItem.added }}</div> -->
       <!-- <div class="name">{{ gameItem.added_by_status }}</div> -->
+      <!-- <div class="tags">
+        tags
+        <div
+          class="tag"
+          v-for="tag in gameItem.tags"
+          :key="tag.id"
+        >{{ tag.name }}</div>
+      </div> -->
       <div class="tags">
         tags
         <div
@@ -38,16 +61,49 @@
           :key="genre.id"
         >{{ genre.name }}</div>
       </div>
+      <!-- <div class="name">Rating: {{ gameItem.rating }}</div>
+      <div class="name">Metacritic: {{ gameItem.metacritic }}</div> -->
+      <div class="name">Playtime: {{ gameItem.playtime }}</div>
+      <div class="tags">
+        Stores:
+        <div
+          class="tag"
+          v-for="store in gameItem.stores"
+          :key="store.store.id"
+        >{{ store.store.name }}</div>
+      </div>
+      <!-- <div class="name">Stores: {{ gameItem.stores }}</div> -->
+      <div class="tags">
+        Ratings:
+        <div
+          class="tag"
+          v-for="rating in gameItem.ratings"
+          :key="rating.id"
+        > =={{ rating.title }} | {{ rating.count }} | {{ rating.percent }}== </div>
+      </div>
+      <!-- <div class="name">Ratings: {{ gameItem.ratings }}</div> -->
+      <div class="tags">
+        Developers:
+        <div
+          class="tag"
+          v-for="developer in gameItem.developers"
+          :key="developer.id"
+        >{{ developer.name }}</div>
+      </div>
+      <div class="tags">
+        Publishers:
+        <div
+          class="tag"
+          v-for="publisher in gameItem.publishers"
+          :key="publisher.id"
+        >{{ publisher.name }}</div>
+      </div>
+      <!-- <div class="name">Developers: {{ gameItem.developers }}</div> -->
     </div>
-    <div class="details">
+    <footer class="footer">
       <div class="name" :style="{ background: '#'+gameItem.dominant_color }">{{ gameItem.dominant_color }}</div>
-      <div class="name">{{ gameItem.metacritic }}</div>
-      <div class="name">{{ gameItem.playtime }}</div>
-      <div class="name">{{ gameItem.stores }}</div>
-      <div class="name">{{ gameItem.ratings }}</div>
-      <div class="name">{{ gameItem.developers }}</div>
-      <!-- <div class="name">{{ gameItem.background_image }}</div> -->
-    </div>
+      <div class="name">{{ gameItem.background_image }}</div>
+    </footer>
   </div>
 </template>
 
@@ -61,6 +117,11 @@ import { useRoute } from 'vue-router'
 
 const gameItem = ref({})
 const gameScreenshots = ref([])
+const gameAdditions = ref([])
+const gameSeries = ref([])
+const gameStores = ref([])
+const gameAchievements = ref([])
+const gameMovies = ref([])
 const route = useRoute()
 
 console.log(route.params.id)
@@ -69,19 +130,66 @@ async function api (id = 3498) {
   const url = `https://api.rawg.io/api/games/${id}?key=8f4899e2e65a42e58807bc9bbec35cca`
   const response = await fetch(url)
   const commits = await response.json()
-  console.log(commits)
   gameItem.value = commits
+  console.log('gameItem', gameItem.value.results)
 }
 async function apiScreenshots (id = 3498) {
   const url = `https://api.rawg.io/api/games/${id}/screenshots?key=8f4899e2e65a42e58807bc9bbec35cca`
   const response = await fetch(url)
   const commits = await response.json()
-  console.log(commits)
   gameScreenshots.value = commits
-
-  console.log(gameScreenshots.value.results)
+  console.log('screenshots', gameScreenshots.value.results)
 }
-onMounted(api(route.params.id), apiScreenshots(route.params.id))
+async function apiAdditions (id = 3498) {
+  //  список DLC для игры, GOTY и других выпусков, сопутствующих приложений и т. д.
+  const url = `https://api.rawg.io/api/games/${id}/additions?key=8f4899e2e65a42e58807bc9bbec35cca`
+  const response = await fetch(url)
+  const commits = await response.json()
+  gameAdditions.value = commits
+  console.log('additions', gameAdditions.value.results)
+}
+async function apiSeries (id = 3498) {
+  //  список игр, которые являются частью той же серии.
+  const url = `https://api.rawg.io/api/games/${id}/game-series?key=8f4899e2e65a42e58807bc9bbec35cca`
+  const response = await fetch(url)
+  const commits = await response.json()
+  gameSeries.value = commits
+  console.log('game-series', gameSeries.value.results)
+}
+async function apiStores (id = 3498) {
+  //  ссылки на магазины, продающие игру.
+  const url = `https://api.rawg.io/api/games/${id}/stores?key=8f4899e2e65a42e58807bc9bbec35cca`
+  const response = await fetch(url)
+  const commits = await response.json()
+  gameStores.value = commits
+  console.log('stores', gameStores.value.results)
+}
+async function apiAchievements (id = 3498) {
+  //  список игровых достижений.
+  const url = `https://api.rawg.io/api/games/${id}/achievements?key=8f4899e2e65a42e58807bc9bbec35cca`
+  const response = await fetch(url)
+  const commits = await response.json()
+  gameAchievements.value = commits
+  console.log('achievements', gameAchievements.value.results)
+}
+async function apiMovies (id = 3498) {
+  //  список игровых трейлеров.
+  const url = `https://api.rawg.io/api/games/${id}/movies?key=8f4899e2e65a42e58807bc9bbec35cca`
+  const response = await fetch(url)
+  const commits = await response.json()
+  gameMovies.value = commits
+  console.log('movies', gameMovies.value.results)
+}
+
+onMounted(
+  api(route.params.id),
+  apiScreenshots(route.params.id),
+  apiAdditions(route.params.id),
+  apiSeries(route.params.id),
+  apiStores(route.params.id),
+  apiAchievements(route.params.id),
+  apiMovies(route.params.id)
+)
 
 </script>
 
@@ -89,13 +197,15 @@ onMounted(api(route.params.id), apiScreenshots(route.params.id))
 .page {
   display: grid;
   grid-template-areas:
-    "header header"
-    "screenshots description"
-    "details details";
-  grid-template-columns: 1fr;
-  grid-template-rows: 1fr;
+    "header header header header"
+    "screenshots screenshots description description"
+    "main main main right-bar"
+    "footer footer footer footer";
+  // grid-template-columns: 1fr;
+  // grid-template-rows: 1fr;
   gap: 30px;
-  padding: 10px;
+  margin-left: 250px;
+  padding: 30px;
   background: #1C1C2C;
   color: #CBDBEE;
   position: relative;
@@ -114,12 +224,19 @@ onMounted(api(route.params.id), apiScreenshots(route.params.id))
 }
 .header {
   grid-area: header;
+  display: flex;
+  justify-content: space-between;
   z-index: 1;
 }
+.rating {
+  display: flex;
+  gap: 10px;
+}
 .left {
+  grid-area: screenshots;
   display: flex;
   flex-wrap: wrap;
-  grid-area: screenshots;
+  background: rgba(60, 68, 100, 0.7);
   z-index: 1;
 }
 .screenshots-item {
@@ -138,8 +255,16 @@ onMounted(api(route.params.id), apiScreenshots(route.params.id))
 .description {
   // letter-spacing: 1px;
   line-height: 1.2;
-  font-size: 14px;
+  font-size: 16px;
   white-space: pre-wrap;
+}
+.description-img {
+  width: 320px;
+  height: 180px;
+  float: left;
+  margin-right: 10px;
+}
+.description-text {
 }
 .tags {
   display: flex;
@@ -151,7 +276,24 @@ onMounted(api(route.params.id), apiScreenshots(route.params.id))
   background: #1C1C2C;
   padding: 3px 5px;
 }
-.details {
-  grid-area: details;
+.main {
+  grid-area: main;
+  // width: 100%;
+  padding: 20px;
+  background: rgba(60, 68, 100, 0.7);
+  z-index: 1;
+}
+.right-bar {
+  grid-area: right-bar;
+  width: 250px;
+  padding: 20px;
+  background: rgba(60, 68, 100, 0.7);
+  z-index: 1;
+}
+.footer {
+  grid-area: footer;
+  padding: 20px;
+  background: rgba(60, 68, 100, 0.7);
+  z-index: 1;
 }
 </style>
