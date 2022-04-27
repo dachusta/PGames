@@ -24,12 +24,48 @@
       <div class="description">
         <div class="container">
           <img class="description-img" :src="gameItem.background_image" alt="">
+          <!-- gameMovies -->
         </div>
         <p class="description-text">{{ gameItem.description_raw }}</p>
       </div>
     </div>
     <main class="main">
-      1
+      Buy:
+      <div
+        class="stores"
+        v-for="store in gameStores.results"
+        :key="store.id"
+      >
+        <a :href="store.url">{{ store?.store_id }}</a>
+      </div>
+      Additions:
+      <div
+        class="additions"
+        v-for="addition in gameAdditions.results"
+        :key="addition.id"
+      >
+        {{addition.name}}
+        <!-- {{addition.name}} -->
+      </div>
+      gameSeries:
+      <div
+        class="series"
+        v-for="series in gameSeries.results"
+        :key="series.id"
+      >
+        {{series.name}}
+        <!-- {{series.background_image}} -->
+      </div>
+      gameAchievements:
+      <div
+        class="achievement"
+        v-for="achievement in gameAchievements.results"
+        :key="achievement.id"
+      >
+        {{achievement.name}}
+        <!-- {{series.image}} -->
+      </div>
+      <!-- {{gameAchievements.results}} -->
     </main>
     <div class="right-bar">
       <div class="name">Released: {{ gameItem.released }}</div>
