@@ -9,29 +9,34 @@
     style="background-size: cover;"
   >
     <header class="header">
-      <div class="name">{{ gameItem.name }}</div>
+      <!-- <div class="name">{{ gameItem.name }}</div> -->
 
-      <div class="rating">
+      <!-- <div class="rating">
         <div class="name">Rating: {{ gameItem.rating }}</div>
         <div class="name">Metacritic: {{ gameItem.metacritic }}</div>
-      </div>
+      </div> -->
     </header>
     <div class="wrap left screenshots-list?">
         <!-- v-for="screenshot in gameScreenshots.results" -->
       <img
         class="screenshots-item"
-        :src="gameScreenshots?.results[0]?.image"
+        :src="gameScreenshots?.results?.[0]?.image"
         alt="1"
       />
     </div>
     <div class="right">
-      <div class="description">
-        <div class="container">
-          <img class="description-img" :src="gameItem.background_image" alt="">
-          <!-- gameMovies -->
+      <div class="container">
+        <img class="main-img" :src="gameItem.background_image" alt="">
+        <div class="main-info">
+          <p class="name">{{ gameItem.name }}</p>
+          <p class="name">Rating: {{ gameItem.rating }}</p>
+          <p class="name">Metacritic: {{ gameItem.metacritic }}</p>
         </div>
-        <p class="description-text">{{ gameItem.description_raw }}</p>
+        <!-- gameMovies -->
       </div>
+      <!-- <div class="description"> -->
+        <p class="description-text">{{ gameItem.description_raw }}</p>
+      <!-- </div> -->
     </div>
     <main class="main">
       Buy:
@@ -40,7 +45,7 @@
         v-for="store in gameStores.results"
         :key="store.id"
       >
-        <a :href="store.url">{{ store?.store_id }}</a>
+        <a :href="store.url">{{ hostName(store.url).hostname }}</a>
       </div>
       Additions:
       <div
@@ -73,7 +78,7 @@
     </main>
     <div class="right-bar">
       <div class="name">Released: {{ gameItem.released }}</div>
-      <div class="name">Updated: {{ gameItem.updated }}</div>
+      <div class="name">Updated: {{ gameItem?.updated }}</div>
       <div class="name">Esrb rating: {{ gameItem.esrb_rating.name }}</div>
       <!-- <div class="name">{{ gameItem.added }}</div> -->
       <!-- <div class="name">{{ gameItem.added_by_status }}</div> -->
@@ -167,6 +172,10 @@ const gameMovies = ref([])
 const route = useRoute()
 
 console.log(route.params.id)
+
+function hostName (store) {
+  return new URL(store)
+}
 
 async function api (id = 3498) {
   const url = `https://api.rawg.io/api/games/${id}?key=8f4899e2e65a42e58807bc9bbec35cca`
@@ -281,8 +290,14 @@ onMounted(
   justify-content: space-between;
   z-index: 1;
 }
-.rating {
+.name {
+  font-size: 24px;
+  // padding: 0;
+  margin: 0;
+}
+.main-info {
   display: flex;
+  flex-direction: column;
   gap: 10px;
 }
 .left {
@@ -298,26 +313,55 @@ onMounted(
 }
 .right {
   grid-area: description;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
   padding: 20px;
   background: rgba(60, 68, 100, 0.7);
   z-index: 1;
+  // max-height: 360px;
 }
-.name {
-  font-size: 24px;
+.container {
+  display: flex;
+  // justify-content: space-between;
 }
-.description {
+// .description {
   // letter-spacing: 1px;
-  line-height: 1.2;
-  font-size: 16px;
-  white-space: pre-wrap;
-}
-.description-img {
+  // line-height: 1.2;
+  // font-size: 16px;
+  // white-space: pre-wrap;
+// }
+.main-img {
   width: 320px;
   height: 180px;
   float: left;
   margin-right: 10px;
 }
 .description-text {
+  line-height: 1.2;
+  font-size: 16px;
+  white-space: pre-wrap;
+  margin: 0;
+  overflow: hidden;
+  position: relative;
+  max-height: 114px;
+  // overflow: hidden;
+  // text-overflow: ellipsis;
+  // display: -webkit-box;
+  // -webkit-line-clamp: 7;
+  // height: 100%;
+  // -webkit-box-orient: vertical;
+}
+.description-text:after {
+  content: "";
+  text-align: right;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  height: 1.2em;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(60, 68, 100, 0.7) 100%);
+  pointer-events: none;
 }
 .tags {
   display: flex;
@@ -335,6 +379,9 @@ onMounted(
   padding: 20px;
   background: rgba(60, 68, 100, 0.7);
   z-index: 1;
+}
+.stores a {
+  color: inherit;
 }
 .right-bar {
   grid-area: right-bar;
