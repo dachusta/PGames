@@ -1,6 +1,10 @@
 <template>
+<div class="page">
+  <TheSidebar
+    class="sidebar"
+  />
   <div
-    class="page game-item"
+    class="game-item"
     :style="{ background: `no-repeat center url(${gameItem.background_image}) fixed` }"
     style="background-size: cover;"
   >
@@ -141,11 +145,13 @@
       <div class="name">{{ gameItem.background_image }}</div>
     </footer>
   </div>
+</div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
+import TheSidebar from '@/components/TheSidebar.vue'
 
 // const props = defineProps({
 //   id: String
@@ -232,6 +238,14 @@ onMounted(
 <style lang="scss" scoped>
 .page {
   display: grid;
+  grid-template-columns: 250px 1fr;
+  background: #1C1C2C;
+  color: #CBDBEE;
+  position: relative;
+
+}
+.game-item {
+  display: grid;
   grid-template-areas:
     "header header header header"
     "screenshots screenshots description description"
@@ -240,12 +254,9 @@ onMounted(
   // grid-template-columns: 1fr;
   // grid-template-rows: 1fr;
   gap: 30px;
-  margin-left: 250px;
+  // margin-left: 250px;
   padding: 30px;
-  background: #1C1C2C;
-  color: #CBDBEE;
-  position: relative;
-  z-index: 0;
+  // z-index: 0;
 }
 .page::after {
   content: "";
@@ -258,6 +269,12 @@ onMounted(
   opacity: 0.7;
   z-index: 0;
 }
+.sidebar {
+  z-index: 1;
+}
+// .game-item {
+//   z-index: 1;
+// }
 .header {
   grid-area: header;
   display: flex;

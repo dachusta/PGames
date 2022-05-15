@@ -1,15 +1,8 @@
 <template>
   <div class="content">
-    <div class="sidebar">
-      <div class="logo">PGames</div>
-      <nav class="nav">
-        <div class="link">Home</div>
-        <div class="link">List</div>
-        <div class="link">Top</div>
-        <div class="link">4</div>
-        <div class="link">5</div>
-      </nav>
-    </div>
+    <TheSidebar
+      class="sidebar"
+    />
     <div class="page">
       <header class="header">
         <div class="title"></div>
@@ -49,6 +42,7 @@
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import GameItem from '@/components/GameItem.vue'
+import TheSidebar from '@/components/TheSidebar.vue'
 
 // const emit = defineEmits(['change', 'delete'])
 
@@ -81,18 +75,6 @@ function toGameItem (id) {
   display: grid;
   grid-template-columns: 250px 1fr;
   color: #cbdbee;
-}
-.sidebar {
-  background: #27293f;
-  padding: 10px;
-  .logo {
-    position: sticky;
-    top: 10px;
-  }
-  .nav {
-    position: sticky;
-    top: 28px;
-  }
 }
 .page {
   background: #1c1c2c;
