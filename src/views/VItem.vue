@@ -53,23 +53,45 @@
           <a :href="store.url" class="store__btn">Buy</a>
         </a>
       </div>
-      Additions: >>>
       <div
         class="additions"
-        v-for="addition in gameAdditions.results"
-        :key="addition.id"
       >
-        {{addition.name}}
-        <!-- {{addition.name}} -->
+        <div class="additions__title">
+          Additions: >>>
+        </div>
+        <a
+          class="addition"
+          v-for="addition in gameAdditions.results"
+          :key="addition.id"
+        >
+          <img
+            class="addition__img"
+            :src="addition?.background_image"
+            alt=".img"
+          >
+          <p class="addition__text">{{ addition.name }}</p>
+        </a>
       </div>
-      gameSeries: >>>
-      <div
-        class="series"
-        v-for="series in gameSeries.results"
-        :key="series.id"
-      >
-        {{series.name}}
-        <!-- {{series.background_image}} -->
+      <div class="game-series">
+        <div class="game-series__title">
+          gameSeries: >>>
+        </div>
+        <div class="game-series__list">
+          <div
+            class="game"
+            v-for="series in gameSeries.results"
+            :key="series.id"
+          >
+            <img
+              class="game__img"
+              :src="series?.background_image"
+              alt="game"
+            >
+            <div class="game__name">
+              {{series.name}}
+            </div>
+          </div>
+        </div>
       </div>
       gameAchievements: >>>
       <div
@@ -381,6 +403,8 @@ onMounted(
 }
 .main {
   grid-area: main;
+  display: grid;
+  gap: 10px;
   // width: 100%;
   padding: 20px;
   background: rgba(60, 68, 100, 0.7);
@@ -428,6 +452,73 @@ onMounted(
     }
   }
 }
+
+.additions {
+  display: grid;
+  gap: 10px;
+  padding: 15px 30px;
+  background: rgba(39, 41, 63, 0.75);
+
+  &__title {
+    display: flex;
+    justify-self: flex-start;
+    padding: 3px 10px;
+    font-size: 14px;
+    background: rgba(102, 204, 51, 0.75);
+  }
+
+  .addition {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    // padding: 10px 0px 10px 15px;
+    background: #3C4464;
+    color: inherit;
+
+    &__img {
+      background: rgba(39, 41, 63);
+      width: 128px;
+      height: 72px;
+    }
+
+    &__text {
+      margin: 0;
+      font-size: 16px;
+    }
+  }
+}
+
+.game-series {
+  display: grid;
+  gap: 10px;
+  padding: 15px 30px;
+  background: rgba(39, 41, 63, 0.75);
+
+  &__title {
+    display: flex;
+    padding: 3px 10px;
+    justify-self: flex-start;
+    font-size: 14px;
+    background: rgba(102, 204, 51, 0.75);
+  }
+
+  &__list {
+    display: flex;
+    gap: 15px;
+    overflow: auto;
+  }
+
+  .game {
+    display: grid;
+
+    &__img {
+      background: rgba(39, 41, 63);
+      width: 256px;
+      height: 144px;
+    }
+  }
+}
+
 .right-bar {
   grid-area: right-bar;
   width: 250px;
