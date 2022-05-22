@@ -34,14 +34,11 @@
         </div>
         <!-- gameMovies -->
       </div>
-      <!-- <div class="description"> -->
-        <p class="description-text">{{ gameItem.description_raw }}</p>
-      <!-- </div> -->
     </div>
     <main class="main">
       <div class="stores">
         <div class="stores__title">
-          Where to buy: >>>
+          Where to buy:
         </div>
         <a :href="store.url"
           class="store"
@@ -50,14 +47,29 @@
         >
           <div class="store__icon"></div>
           <p class="store__text">{{ hostName(store.url).hostname }}</p>
+            <!-- apps.apple.com
+            store.playstation.com
+            www.microsoft.com
+            store.steampowered.com
+            www.gog.com
+            marketplace.xbox.com
+            www.nintendo.com
+            play.google.com
+            www.epicgames.com -->
           <a :href="store.url" class="store__btn">Buy</a>
         </a>
+      </div>
+      <div class="description">
+        <div class="description__title">
+          About
+        </div>
+        <p class="description__text">{{ gameItem.description_raw }}</p>
       </div>
       <div
         class="additions"
       >
         <div class="additions__title">
-          Additions: >>>
+          Additions:
         </div>
         <a
           class="addition"
@@ -74,7 +86,7 @@
       </div>
       <div class="game-series">
         <div class="game-series__title">
-          gameSeries: >>>
+          Game series:
         </div>
         <div class="game-series__list">
           <div
@@ -88,21 +100,38 @@
               alt="game"
             >
             <div class="game__name">
-              {{series.name}}
+              {{ series.name }}
             </div>
           </div>
         </div>
       </div>
-      gameAchievements: >>>
-      <div
-        class="achievement"
-        v-for="achievement in gameAchievements.results"
-        :key="achievement.id"
-      >
-        {{achievement.name}}
-        <!-- {{series.image}} -->
+      <div class="achievements">
+        <div class="achievements__title">
+          Achievements:
+        </div>
+        <div
+          class="achievement"
+          v-for="achievement in gameAchievements.results"
+          :key="achievement.id"
+        >
+          <img
+            class="achievement__img"
+            :src="achievement.image"
+            alt=".img"
+          >
+          <div class="achievement__text">
+            <div class="achievement__name">
+              {{ achievement.name }}
+            </div>
+            <div class="achievement__description">
+              {{ achievement.description }}
+            </div>
+          </div>
+          <div class="achievement__percent">
+            {{ achievement.percent }}
+          </div>
+        </div>
       </div>
-      <!-- {{gameAchievements.results}} -->
     </main>
     <div v-if="false" class="right-bar">
       <div class="name">Released: {{ gameItem.released }}</div>
@@ -353,44 +382,51 @@ onMounted(
   display: flex;
   // justify-content: space-between;
 }
-// .description {
-  // letter-spacing: 1px;
-  // line-height: 1.2;
-  // font-size: 16px;
-  // white-space: pre-wrap;
-// }
 .main-img {
   width: 320px;
   height: 180px;
   float: left;
   margin-right: 10px;
 }
-.description-text {
-  line-height: 1.2;
-  font-size: 16px;
-  white-space: pre-wrap;
-  margin: 0;
-  overflow: hidden;
-  position: relative;
-  max-height: 114px;
+.description {
+  display: grid;
+  gap: 10px;
+  padding: 15px 30px;
+  background: rgba(39, 41, 63, 0.75);
+
+  &__title {
+    display: flex;
+    padding: 3px 10px;
+    justify-self: flex-start;
+    font-size: 14px;
+    background: rgba(102, 204, 51, 0.75);
+  }
+
+  &__text {
+    margin: 0;
+    white-space: pre-wrap;
+  }
+}
+.description {
+  // line-height: 1.2;
+  // font-size: 16px;
+  // white-space: pre-wrap;
   // overflow: hidden;
-  // text-overflow: ellipsis;
-  // display: -webkit-box;
-  // -webkit-line-clamp: 7;
-  // height: 100%;
-  // -webkit-box-orient: vertical;
+  // position: relative;
+  // max-height: 114px;
+
 }
-.description-text:after {
-  content: "";
-  text-align: right;
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  height: 1.2em;
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(60, 68, 100, 0.7) 100%);
-  pointer-events: none;
-}
+// .description-text:after {
+//   content: "";
+//   text-align: right;
+//   position: absolute;
+//   bottom: 0;
+//   right: 0;
+//   left: 0;
+//   height: 1.2em;
+//   background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(60, 68, 100, 0.7) 100%);
+//   pointer-events: none;
+// }
 .tags {
   display: flex;
   flex-wrap: wrap;
@@ -515,6 +551,51 @@ onMounted(
       background: rgba(39, 41, 63);
       width: 256px;
       height: 144px;
+    }
+  }
+}
+
+.achievements {
+  display: grid;
+  gap: 10px;
+  padding: 15px 30px;
+  background: rgba(39, 41, 63, 0.75);
+
+  &__title {
+    display: flex;
+    padding: 3px 10px;
+    justify-self: flex-start;
+    font-size: 14px;
+    background: rgba(102, 204, 51, 0.75);
+  }
+
+  .achievement {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #3C4464;
+
+    &__img {
+      width: 80px;
+      height: 80px;
+      background: rgba(39, 41, 63);
+    }
+
+    &__text {
+      flex: 1 1 100%;
+    }
+
+    &__name {
+      font-size: 16px;
+    }
+
+    &__description {
+      font-size: 14px;
+      color: #8490a9;
+    }
+
+    &__percent {
+      padding-right: 30px;
     }
   }
 }
