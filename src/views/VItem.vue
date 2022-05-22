@@ -39,15 +39,21 @@
       <!-- </div> -->
     </div>
     <main class="main">
-      Buy:
-      <div
-        class="stores"
-        v-for="store in gameStores.results"
-        :key="store.id"
-      >
-        <a :href="store.url">{{ hostName(store.url).hostname }}</a>
+      <div class="stores">
+        <div class="stores__title">
+          Where to buy: >>>
+        </div>
+        <a :href="store.url"
+          class="store"
+          v-for="store in gameStores.results"
+          :key="store.id"
+        >
+          <div class="store__icon"></div>
+          <p class="store__text">{{ hostName(store.url).hostname }}</p>
+          <a :href="store.url" class="store__btn">Buy</a>
+        </a>
       </div>
-      Additions:
+      Additions: >>>
       <div
         class="additions"
         v-for="addition in gameAdditions.results"
@@ -56,7 +62,7 @@
         {{addition.name}}
         <!-- {{addition.name}} -->
       </div>
-      gameSeries:
+      gameSeries: >>>
       <div
         class="series"
         v-for="series in gameSeries.results"
@@ -65,7 +71,7 @@
         {{series.name}}
         <!-- {{series.background_image}} -->
       </div>
-      gameAchievements:
+      gameAchievements: >>>
       <div
         class="achievement"
         v-for="achievement in gameAchievements.results"
@@ -76,7 +82,7 @@
       </div>
       <!-- {{gameAchievements.results}} -->
     </main>
-    <div class="right-bar">
+    <div v-if="false" class="right-bar">
       <div class="name">Released: {{ gameItem.released }}</div>
       <div class="name">Updated: {{ gameItem?.updated }}</div>
       <div class="name">Esrb rating: {{ gameItem.esrb_rating.name }}</div>
@@ -256,10 +262,10 @@ onMounted(
 .game-item {
   display: grid;
   grid-template-areas:
-    "header header header header"
-    "screenshots screenshots description description"
-    "main main main right-bar"
-    "footer footer footer footer";
+    "header header"
+    "screenshots description"
+    "main main"
+    "footer footer";
   // grid-template-columns: 1fr;
   // grid-template-rows: 1fr;
   gap: 30px;
@@ -380,8 +386,47 @@ onMounted(
   background: rgba(60, 68, 100, 0.7);
   z-index: 1;
 }
-.stores a {
-  color: inherit;
+.stores {
+  display: grid;
+  gap: 10px;
+  padding: 15px 30px;
+  background: rgba(39, 41, 63, 0.75);
+
+  &__title {
+    display: flex;
+    justify-self: flex-start;
+    padding: 3px 10px;
+    font-size: 14px;
+    background: rgba(102, 204, 51, 0.75);
+  }
+
+  .store {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 0px 10px 15px;
+    background: #3C4464;
+    color: inherit;
+
+    &__icon {
+      background: rgba(39, 41, 63);
+      width: 18px;
+      height: 18px;
+    }
+
+    &__text {
+      margin: 0;
+      font-size: 14px;
+    }
+
+    &__btn {
+      margin-left: auto;
+      padding: 3px 10px;
+      font-size: 12px;
+      background: rgba(102, 204, 51, 0.75);
+      color: inherit;
+    }
+  }
 }
 .right-bar {
   grid-area: right-bar;

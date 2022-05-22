@@ -33,6 +33,9 @@
           :platforms="game.parent_platforms"
         />
       </main>
+      <footer class="footer">
+        ...pagination...
+      </footer>
     </div>
   </div>
 </template>
