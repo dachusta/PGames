@@ -9,126 +9,132 @@
     style="background-size: cover;"
   >
     <header class="header">
-      <!-- <div class="name">{{ gameItem.name }}</div> -->
-
-      <!-- <div class="rating">
-        <div class="name">Rating: {{ gameItem.rating }}</div>
-        <div class="name">Metacritic: {{ gameItem.metacritic }}</div>
-      </div> -->
+      search
     </header>
-    <div class="wrap left screenshots-list?">
-        <!-- v-for="screenshot in gameScreenshots.results" -->
-      <img
-        class="screenshots-item"
-        :src="gameScreenshots?.results?.[0]?.image"
-        alt="1"
-      />
-    </div>
-    <div class="right">
-      <div class="container">
-        <img class="main-img" :src="gameItem.background_image" alt="">
-        <div class="main-info">
-          <p class="name">{{ gameItem.name }}</p>
-          <p class="name">Rating: {{ gameItem.rating }}</p>
-          <p class="name">Metacritic: {{ gameItem.metacritic }}</p>
-        </div>
-        <!-- gameMovies -->
-      </div>
-    </div>
     <main class="main">
-      <div class="stores">
-        <div class="stores__title">
-          Where to buy:
-        </div>
-        <a :href="store.url"
-          class="store"
-          v-for="store in gameStores.results"
-          :key="store.id"
-        >
-          <div class="store__icon"></div>
-          <p class="store__text">{{ hostName(store.url).hostname }}</p>
-            <!-- apps.apple.com
-            store.playstation.com
-            www.microsoft.com
-            store.steampowered.com
-            www.gog.com
-            marketplace.xbox.com
-            www.nintendo.com
-            play.google.com
-            www.epicgames.com -->
-          <a :href="store.url" class="store__btn">Buy</a>
-        </a>
-      </div>
-      <div class="description">
-        <div class="description__title">
-          About
-        </div>
-        <p class="description__text">{{ gameItem.description_raw }}</p>
-      </div>
-      <div
-        class="additions"
-      >
-        <div class="additions__title">
-          Additions:
-        </div>
-        <a
-          class="addition"
-          v-for="addition in gameAdditions.results"
-          :key="addition.id"
-        >
+      <div class="screenshots">
+          <!-- v-for="screenshot in gameScreenshots.results" -->
+        <img
+          class="screenshots__display"
+          :src="gameScreenshots?.results?.[0]?.image"
+          alt="1"
+        />
+        <div class="screenshots__list">
           <img
-            class="addition__img"
-            :src="addition?.background_image"
-            alt=".img"
-          >
-          <p class="addition__text">{{ addition.name }}</p>
-        </a>
-      </div>
-      <div class="game-series">
-        <div class="game-series__title">
-          Game series:
+            class="screenshots__item"
+            v-for="screenshot in gameScreenshots.results"
+            :key="screenshot.id"
+            :src="screenshot.image"
+            :alt="screenshot.id"
+          />
         </div>
-        <div class="game-series__list">
-          <div
-            class="game"
-            v-for="series in gameSeries.results"
-            :key="series.id"
-          >
-            <img
-              class="game__img"
-              :src="series?.background_image"
-              alt="game"
-            >
-            <div class="game__name">
-              {{ series.name }}
-            </div>
+      </div>
+      <div class="details">
+        <div class="container">
+          <img class="main-img" :src="gameItem.background_image" alt="">
+          <div class="main-info">
+            <p class="name">{{ gameItem.name }}</p>
+            <p class="name">Rating: {{ gameItem.rating }}</p>
+            <p class="name">Metacritic: {{ gameItem.metacritic }}</p>
           </div>
+          <!-- gameMovies -->
         </div>
       </div>
-      <div class="achievements">
-        <div class="achievements__title">
-          Achievements:
+      <div class="additional">
+        <div class="stores">
+          <div class="stores__title">
+            Where to buy:
+          </div>
+          <a :href="store.url"
+            class="store"
+            v-for="store in gameStores.results"
+            :key="store.id"
+          >
+            <div class="store__icon"></div>
+            <p class="store__text">{{ hostName(store.url).hostname }}</p>
+              <!-- apps.apple.com
+              store.playstation.com
+              www.microsoft.com
+              store.steampowered.com
+              www.gog.com
+              marketplace.xbox.com
+              www.nintendo.com
+              play.google.com
+              www.epicgames.com -->
+            <a :href="store.url" class="store__btn">Buy</a>
+          </a>
+        </div>
+        <div class="description">
+          <div class="description__title">
+            About
+          </div>
+          <p class="description__text">{{ gameItem.description_raw }}</p>
         </div>
         <div
-          class="achievement"
-          v-for="achievement in gameAchievements.results"
-          :key="achievement.id"
+          class="additions"
         >
-          <img
-            class="achievement__img"
-            :src="achievement.image"
-            alt=".img"
+          <div class="additions__title">
+            Additions:
+          </div>
+          <a
+            class="addition"
+            v-for="addition in gameAdditions.results"
+            :key="addition.id"
           >
-          <div class="achievement__text">
-            <div class="achievement__name">
-              {{ achievement.name }}
-            </div>
-            <div class="achievement__description">
-              {{ achievement.description }}
+            <img
+              class="addition__img"
+              :src="addition?.background_image"
+              alt=".img"
+            >
+            <p class="addition__text">{{ addition.name }}</p>
+          </a>
+        </div>
+        <div class="game-series">
+          <div class="game-series__title">
+            Game series:
+          </div>
+          <div class="game-series__list">
+            <div
+              class="game"
+              v-for="series in gameSeries.results"
+              :key="series.id"
+            >
+              <img
+                class="game__img"
+                :src="series?.background_image"
+                alt="game"
+              >
+              <div class="game__name">
+                {{ series.name }}
+              </div>
             </div>
           </div>
-          <div class="achievement__percent">
-            {{ achievement.percent }}
+        </div>
+        <div class="achievements">
+          <div class="achievements__title">
+            Achievements:
+          </div>
+          <div
+            class="achievement"
+            v-for="achievement in gameAchievements.results"
+            :key="achievement.id"
+          >
+            <img
+              class="achievement__img"
+              :src="achievement.image"
+              alt=".img"
+            >
+            <div class="achievement__text">
+              <div class="achievement__name">
+                {{ achievement.name }}
+              </div>
+              <div class="achievement__description">
+                {{ achievement.description }}
+              </div>
+            </div>
+            <div class="achievement__percent">
+              {{ achievement.percent }}
+            </div>
           </div>
         </div>
       </div>
@@ -313,11 +319,9 @@ onMounted(
 .game-item {
   display: grid;
   grid-template-areas:
-    "header header"
-    "screenshots description"
-    "main main"
-    "footer footer";
-  // grid-template-columns: 1fr;
+    "header"
+    "main"
+    "footer";
   // grid-template-rows: 1fr;
   gap: 30px;
   // margin-left: 250px;
@@ -335,9 +339,7 @@ onMounted(
   opacity: 0.7;
   z-index: 0;
 }
-.sidebar {
-  z-index: 1;
-}
+
 // .game-item {
 //   z-index: 1;
 // }
@@ -346,6 +348,54 @@ onMounted(
   display: flex;
   justify-content: space-between;
   z-index: 1;
+}
+.main {
+  grid-area: main;
+  display: grid;
+  grid-template-areas:
+    "screenshots details"
+    "additional additional";
+  grid-template-columns: 640px 1fr;
+  gap: 10px;
+  padding: 20px;
+  z-index: 1;
+
+  .screenshots {
+    grid-area: screenshots;
+    width: 640px;
+
+    background: rgba(60, 68, 100, 0.7);
+
+    &__display {
+      width: 640px;
+      height: 360px;
+    }
+
+    &__list {
+      display: flex;
+      gap: 5px;
+      overflow: auto;
+    }
+
+    &__item {
+      width: 128px;
+      height: 72px;
+    }
+  }
+
+  .details {
+    grid-area: details;
+
+    background: rgba(60, 68, 100, 0.7);
+  }
+
+  .additional {
+    grid-area: additional;
+    display: grid;
+    gap: 10px;
+
+    background: rgba(60, 68, 100, 0.7);
+  }
 }
 .name {
   font-size: 24px;
@@ -357,17 +407,7 @@ onMounted(
   flex-direction: column;
   gap: 10px;
 }
-.left {
-  grid-area: screenshots;
-  display: flex;
-  flex-wrap: wrap;
-  background: rgba(60, 68, 100, 0.7);
-  z-index: 1;
-}
-.screenshots-item {
-  width: 640px;
-  height: 360px;
-}
+
 .right {
   grid-area: description;
   display: flex;
@@ -437,15 +477,7 @@ onMounted(
   background: #1C1C2C;
   padding: 3px 5px;
 }
-.main {
-  grid-area: main;
-  display: grid;
-  gap: 10px;
-  // width: 100%;
-  padding: 20px;
-  background: rgba(60, 68, 100, 0.7);
-  z-index: 1;
-}
+
 .stores {
   display: grid;
   gap: 10px;

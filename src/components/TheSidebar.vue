@@ -20,6 +20,8 @@
 .sidebar {
   background: #27293f;
   padding: 10px;
+  z-index: 1;
+
   .logo {
     position: sticky;
     top: 10px;
