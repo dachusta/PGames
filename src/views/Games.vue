@@ -25,7 +25,7 @@
           class="card game-item"
           v-for="game in gameList"
           :key="game.id"
-          @click="toGameItem(game.id)"
+          @click="toGameDetails(game.id)"
 
           :screenshots="game.short_screenshots"
           :name="game.name"
@@ -44,7 +44,7 @@
 // import { ref, onMounted, watch, toRefs, computed, method } from 'vue'
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import GameItem from '@/components/GameItem.vue'
+import GameItem from '@/components/Games/GameItem.vue'
 import TheSidebar from '@/components/TheSidebar.vue'
 
 // const emit = defineEmits(['change', 'delete'])
@@ -68,8 +68,8 @@ async function api () {
 }
 onMounted(api())
 
-function toGameItem (id) {
-  router.push({ name: 'VItem', params: { id: id } })
+function toGameDetails (id) {
+  router.push({ name: 'toGameDetails', params: { id: id } })
 }
 </script>
 

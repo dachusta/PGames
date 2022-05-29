@@ -4,8 +4,8 @@
     <nav class="nav">
       <!-- <div class="link">Home</div> -->
       <!-- <router-link class="link" to="/">Home</router-link> -->
-      <router-link class="link" to="/v-list">List</router-link>
-      <router-link class="link" to="/v-item">Item</router-link>
+      <router-link class="link" to="/games">Games</router-link>
+      <router-link class="link" to="/game-details">Game details</router-link>
       <div class="link">Top</div>
       <div class="link">4</div>
       <div class="link">5</div>
