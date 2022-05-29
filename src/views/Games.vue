@@ -69,7 +69,7 @@ async function api () {
 onMounted(api())
 
 function toGameDetails (id) {
-  router.push({ name: 'toGameDetails', params: { id: id } })
+  router.push({ name: 'GameDetails', params: { id: id } })
 }
 </script>
 
