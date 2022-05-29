@@ -1,10 +1,10 @@
 <template>
-<div class="page">
+<div class="wrapper">
   <TheSidebar
     class="sidebar"
   />
   <div
-    class="game-item"
+    class="page"
     :style="{ background: `no-repeat center url(${gameItem.background_image}) fixed` }"
     style="background-size: cover;"
   >
@@ -310,23 +310,12 @@ onMounted(
 <style lang="scss" scoped>
 .page {
   display: grid;
-  grid-template-columns: 250px 1fr;
-  background: #1C1C2C;
-  color: #CBDBEE;
-  position: relative;
-
-}
-.game-item {
-  display: grid;
   grid-template-areas:
     "header"
     "main"
     "footer";
-  // grid-template-rows: 1fr;
   gap: 30px;
-  // margin-left: 250px;
   padding: 30px;
-  // z-index: 0;
 }
 .page::after {
   content: "";
@@ -339,10 +328,6 @@ onMounted(
   opacity: 0.7;
   z-index: 0;
 }
-
-// .game-item {
-//   z-index: 1;
-// }
 .header {
   grid-area: header;
   display: flex;
@@ -447,26 +432,6 @@ onMounted(
     white-space: pre-wrap;
   }
 }
-.description {
-  // line-height: 1.2;
-  // font-size: 16px;
-  // white-space: pre-wrap;
-  // overflow: hidden;
-  // position: relative;
-  // max-height: 114px;
-
-}
-// .description-text:after {
-//   content: "";
-//   text-align: right;
-//   position: absolute;
-//   bottom: 0;
-//   right: 0;
-//   left: 0;
-//   height: 1.2em;
-//   background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(60, 68, 100, 0.7) 100%);
-//   pointer-events: none;
-// }
 .tags {
   display: flex;
   flex-wrap: wrap;

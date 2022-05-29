@@ -1,5 +1,5 @@
 <template>
-  <div class="content">
+  <div class="wrapper">
     <TheSidebar
       class="sidebar"
     />
@@ -74,13 +74,7 @@ function toGameDetails (id) {
 </script>
 
 <style lang="scss" scoped>
-.content {
-  display: grid;
-  grid-template-columns: 250px 1fr;
-  color: #cbdbee;
-}
 .page {
-  background: #1c1c2c;
   padding: 30px;
 }
 .header {

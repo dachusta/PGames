@@ -26,11 +26,22 @@
     position: sticky;
     top: 10px;
   }
+
   .nav {
     display: flex;
     flex-direction: column;
     position: sticky;
+    padding: 30px;
     top: 28px;
+
+    .link {
+      font-weight: bold;
+      color: inherit;
+
+      &.router-link-exact-active {
+        color: #42b983;
+      }
+    }
   }
 }
 </style>
