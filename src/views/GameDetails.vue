@@ -29,41 +29,43 @@
           />
         </div>
       </div>
+      <!-- company -->
       <div class="details">
+        <div class="title">{{ gameItem.name }}</div>
         <div class="container">
           <img class="main-img" :src="gameItem.background_image" alt="">
-          <div class="main-info">
-            <p class="name">{{ gameItem.name }}</p>
-            <p class="name">Rating: {{ gameItem.rating }}</p>
-            <p class="name">Metacritic: {{ gameItem.metacritic }}</p>
+          <!-- apps.apple.com
+                store.playstation.com
+                www.microsoft.com
+                store.steampowered.com
+                www.gog.com
+                marketplace.xbox.com
+                www.nintendo.com
+                play.google.com
+                www.epicgames.com -->
+          <div class="stores">
+            <div class="stores__title">
+              Where to buy:
+            </div>
+            <a :href="store.url"
+              class="store"
+              v-for="store in gameStores.results"
+              :key="store.id"
+            >
+              <div class="store__icon"></div>
+              <p class="store__text">{{ hostName(store.url).hostname }}</p>
+              <a :href="store.url" class="store__btn">Buy</a>
+            </a>
           </div>
-          <!-- gameMovies -->
+        </div>
+        <div class="container">
+          <div class="main-info">
+            <p class="name-">Rating: {{ gameItem.rating }}</p>
+            <p class="name-">Metacritic: {{ gameItem.metacritic }}</p>
+          </div>
         </div>
       </div>
       <div class="additional">
-        <div class="stores">
-          <div class="stores__title">
-            Where to buy:
-          </div>
-          <a :href="store.url"
-            class="store"
-            v-for="store in gameStores.results"
-            :key="store.id"
-          >
-            <div class="store__icon"></div>
-            <p class="store__text">{{ hostName(store.url).hostname }}</p>
-              <!-- apps.apple.com
-              store.playstation.com
-              www.microsoft.com
-              store.steampowered.com
-              www.gog.com
-              marketplace.xbox.com
-              www.nintendo.com
-              play.google.com
-              www.epicgames.com -->
-            <a :href="store.url" class="store__btn">Buy</a>
-          </a>
-        </div>
         <div class="description">
           <div class="description__title">
             About
@@ -140,9 +142,9 @@
       </div>
     </main>
     <div v-if="false" class="right-bar">
-      <div class="name">Released: {{ gameItem.released }}</div>
-      <div class="name">Updated: {{ gameItem?.updated }}</div>
-      <div class="name">Esrb rating: {{ gameItem.esrb_rating.name }}</div>
+      <div class="name-">Released: {{ gameItem.released }}</div>
+      <div class="name-">Updated: {{ gameItem?.updated }}</div>
+      <div class="name-">Esrb rating: {{ gameItem.esrb_rating.name }}</div>
       <!-- <div class="name">{{ gameItem.added }}</div> -->
       <!-- <div class="name">{{ gameItem.added_by_status }}</div> -->
       <!-- <div class="tags">
@@ -171,7 +173,7 @@
       </div>
       <!-- <div class="name">Rating: {{ gameItem.rating }}</div>
       <div class="name">Metacritic: {{ gameItem.metacritic }}</div> -->
-      <div class="name">Playtime: {{ gameItem.playtime }}</div>
+      <div class="name-">Playtime: {{ gameItem.playtime }}</div>
       <div class="tags">
         Stores:
         <div
@@ -209,8 +211,8 @@
       <!-- <div class="name">Developers: {{ gameItem.developers }}</div> -->
     </div>
     <footer class="footer">
-      <div class="name" :style="{ background: '#'+gameItem.dominant_color }">{{ gameItem.dominant_color }}</div>
-      <div class="name">{{ gameItem.background_image }}</div>
+      <div class="name-" :style="{ background: '#'+gameItem.dominant_color }">{{ gameItem.dominant_color }}</div>
+      <div class="name-">{{ gameItem.background_image }}</div>
     </footer>
   </div>
 </div>
@@ -370,8 +372,24 @@ onMounted(
 
   .details {
     grid-area: details;
+    display: grid;
+    grid-template-areas:
+      "title title"
+      "left right";
+    grid-template-columns: 320px 1fr;
+    // height: 450px;
+    // grid-template-rows: max-;
+    gap: 30px;
+    padding: 20px;
 
     background: rgba(60, 68, 100, 0.7);
+
+    .title {
+      grid-area: title;
+      font-size: 24px;
+      // padding: 0;
+      margin: 0;
+    }
   }
 
   .additional {
@@ -382,11 +400,7 @@ onMounted(
     background: rgba(60, 68, 100, 0.7);
   }
 }
-.name {
-  font-size: 24px;
-  // padding: 0;
-  margin: 0;
-}
+
 .main-info {
   display: flex;
   flex-direction: column;
@@ -404,7 +418,7 @@ onMounted(
   // max-height: 360px;
 }
 .container {
-  display: flex;
+  // display: flex;
   // justify-content: space-between;
 }
 .main-img {
@@ -446,8 +460,10 @@ onMounted(
 .stores {
   display: grid;
   gap: 10px;
-  padding: 15px 30px;
+  padding: 10px 20px;
   background: rgba(39, 41, 63, 0.75);
+  overflow: auto;
+  height: 145px;
 
   &__title {
     display: flex;
