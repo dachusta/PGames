@@ -75,6 +75,8 @@ function toGameDetails (id) {
 
 <style lang="scss" scoped>
 .page {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
   padding: 30px;
 }
 .header {

@@ -197,6 +197,7 @@ onMounted(
     "footer";
   gap: 30px;
   padding: 30px;
+  position: relative;
 }
 .page::after {
   content: "";
@@ -251,6 +252,7 @@ onMounted(
 
     .stores {
       grid-area: stores;
+      max-height: 346px;
     }
 
     .container--dprug {
