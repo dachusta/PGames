@@ -54,6 +54,14 @@ function ratingBG (params) {
   background: #3c4464;
   gap: 5px;
   border-radius: 10px;
+  overflow: hidden;
+
+  transition: transform .15s ease, box-shadow .2s ease;
+
+  &:hover {
+    transform: scale(105%);
+    box-shadow: 0px 3px 15px 1px rgba(99, 163, 236, 0.75);
+  }
 }
 .game-item .card-top {
   display: flex;
