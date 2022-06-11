@@ -10,16 +10,18 @@
                 www.epicgames.com -->
   <div class="stores">
     <div class="stores__title">Where to buy:</div>
-    <a
-      :href="store.url"
-      class="store"
-      v-for="store in props.list"
-      :key="store.id"
-    >
-      <div class="store__icon"></div>
-      <p class="store__text">{{ hostName(store.url).hostname }}</p>
-      <a :href="store.url" class="store__btn">Buy</a>
-    </a>
+    <div class="stores__list">
+      <a
+        :href="store.url"
+        class="store"
+        v-for="store in props.list"
+        :key="store.id"
+      >
+        <div class="store__icon"></div>
+        <p class="store__text">{{ hostName(store.url).hostname }}</p>
+        <a :href="store.url" class="store__btn">Buy</a>
+      </a>
+    </div>
   </div>
 </template>
 
@@ -37,10 +39,9 @@ function hostName (store) {
 <style lang="scss" scoped>
 .stores {
   display: grid;
+  align-content: flex-start;
   gap: 10px;
-  padding: 10px 20px;
   background: rgba(39, 41, 63, 0.75);
-  overflow: auto;
   // height: 145px;
 
   &__title {
@@ -51,31 +52,38 @@ function hostName (store) {
     background: rgba(102, 204, 51, 0.75);
   }
 
-  .store {
-    display: flex;
-    align-items: center;
+  &__list {
+    display: grid;
     gap: 10px;
-    padding: 10px 0px 10px 15px;
-    background: #3C4464;
-    color: inherit;
+    padding: 10px 20px;
+    overflow: auto;
 
-    &__icon {
-      background: rgba(39, 41, 63);
-      width: 18px;
-      height: 18px;
-    }
-
-    &__text {
-      margin: 0;
-      font-size: 14px;
-    }
-
-    &__btn {
-      margin-left: auto;
-      padding: 3px 10px;
-      font-size: 12px;
-      background: rgba(102, 204, 51, 0.75);
+    .store {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 0px 10px 15px;
+      background: #3C4464;
       color: inherit;
+
+      &__icon {
+        background: rgba(39, 41, 63);
+        width: 18px;
+        height: 18px;
+      }
+
+      &__text {
+        margin: 0;
+        font-size: 14px;
+      }
+
+      &__btn {
+        margin-left: auto;
+        padding: 3px 10px;
+        font-size: 12px;
+        background: rgba(102, 204, 51, 0.75);
+        color: inherit;
+      }
     }
   }
 }
