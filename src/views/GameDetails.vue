@@ -290,7 +290,8 @@ onMounted(
 
     .tags {
       // grid-area: tags;
-      max-height: 202px;
+      // max-height: 202px;
+      max-height: 142px;
       overflow: hidden;
     }
   }
@@ -324,7 +325,9 @@ onMounted(
 
   &__title {
     flex: 0 0 90px;
-    color: rgba(203, 219, 238, 50%);
+    font-size: 15px;
+    font-weight: 500;
+    color: rgba(203, 219, 238, 65%);
   }
 }
 .developer, .publisher, .genre, .tag {
