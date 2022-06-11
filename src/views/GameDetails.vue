@@ -26,7 +26,9 @@
         />
         <div class="container--column container--dprug">
           <div class="developers">
-            Developers:
+            <div class="developers__title">
+              Developers:
+            </div>
             <div
               class="developer"
               v-for="developer in gameItem.developers"
@@ -34,22 +36,42 @@
             >{{ developer.name }}</div>
           </div>
           <div class="publishers">
-            Publishers:
+            <div class="publishers__title">
+              Publishers:
+            </div>
             <div
               class="publisher"
               v-for="publisher in gameItem.publishers"
               :key="publisher.id"
             >{{ publisher.name }}</div>
           </div>
-          <div class="released">Released: {{ gameItem.released }}</div>
-          <div class="updated">Updated: {{ gameItem?.updated }}</div>
+          <div class="released">
+            <div class="released__title">Released:</div>
+            <div class="released__date">{{ gameItem.released }}</div>
+          </div>
+          <div class="updated">
+            <div class="updated__title">Updated:</div>
+            <div class="updated__date">{{ gameItem?.updated }}</div>
+          </div>
           <div class="genres">
-            Genres:
+            <div class="genres__title">
+              Genres:
+            </div>
             <div
               class="genre"
               v-for="genre in gameItem.genres"
               :key="genre.id"
             >{{ genre.name }}</div>
+          </div>
+          <div class="tags">
+            <div class="tags__title">
+              Tags
+            </div>
+            <div
+              class="tag"
+              v-for="tag in gameItem.tags"
+              :key="tag.id"
+            >{{ tag.name }}</div>
           </div>
         </div>
         <div class="container container--rating">
@@ -57,14 +79,6 @@
           <div class="metacritic">Metacritic: {{ gameItem.metacritic }}</div>
           <div class="name-">Esrb rating: {{ gameItem.esrb_rating.name }}</div>
           <div class="name-">Playtime: {{ gameItem.playtime }}</div>
-        </div>
-        <div class="tags">
-          Tags
-          <div
-            class="tag"
-            v-for="tag in gameItem.tags"
-            :key="tag.id"
-          >{{ tag.name }}</div>
         </div>
       </div>
       <div class="additional">
@@ -237,7 +251,7 @@ onMounted(
     grid-template-areas:
       "title title title"
       "stores dprug rating"
-      "stores tags tags";
+      "stores dprug rating";
     grid-template-columns: 320px 1fr;
     grid-template-rows: max-content;
     gap: 20px;
@@ -262,6 +276,7 @@ onMounted(
     .container--rating {
       grid-area: rating;
       display: flex;
+      align-content: flex-start;
       gap: 10px;
       flex-wrap: wrap;
       max-width: 250px;
@@ -274,7 +289,9 @@ onMounted(
     }
 
     .tags {
-      grid-area: tags;
+      // grid-area: tags;
+      max-height: 202px;
+      overflow: hidden;
     }
   }
 
@@ -298,11 +315,17 @@ onMounted(
 //   margin-right: 10px;
 // }
 
-.developers, .publishers, .genres, .tags {
+.developers, .publishers, .genres, .released, .updated, .tags {
   display: flex;
   flex-wrap: wrap;
   align-content: flex-start;
+  align-items: center;
   gap: 5px;
+
+  &__title {
+    flex: 0 0 90px;
+    color: rgba(203, 219, 238, 50%);
+  }
 }
 .developer, .publisher, .genre, .tag {
   background: #1C1C2C;
