@@ -1,13 +1,4 @@
 <template>
-  <!-- apps.apple.com
-                store.playstation.com
-                www.microsoft.com
-                store.steampowered.com
-                www.gog.com
-                marketplace.xbox.com
-                www.nintendo.com
-                play.google.com
-                www.epicgames.com -->
   <div class="stores">
     <div class="stores__title">Where to buy:</div>
     <div class="stores__list">
@@ -17,8 +8,16 @@
         v-for="store in props.list"
         :key="store.id"
       >
-        <div class="store__icon"></div>
-        <p class="store__text">{{ hostName(store.url).hostname }}</p>
+        <img v-if="storeName(store.url) === 'App Store'" class="store__logo" src="@/assets/stores/appstore.png" alt="">
+        <img v-else-if="storeName(store.url) === 'PlayStation'" class="store__logo" src="@/assets/stores/playstation.png" alt="">
+        <img v-else-if="storeName(store.url) === 'Microsoft'" class="store__logo" src="@/assets/stores/microsoft.png" alt="">
+        <img v-else-if="storeName(store.url) === 'Steam'" class="store__logo" src="@/assets/stores/steam.png" alt="">
+        <img v-else-if="storeName(store.url) === 'GOG'" class="store__logo" src="@/assets/stores/gog.png" alt="">
+        <img v-else-if="storeName(store.url) === 'Xbox'" class="store__logo" src="@/assets/stores/xbox.png" alt="">
+        <img v-else-if="storeName(store.url) === 'Nintendo'" class="store__logo" src="@/assets/stores/nintendo.png" alt="">
+        <img v-else-if="storeName(store.url) === 'Google Play'" class="store__logo" src="@/assets/stores/googleplay.png" alt="">
+        <img v-else-if="storeName(store.url) === 'Epic Games'" class="store__logo" src="@/assets/stores/epicgames.png" alt="">
+        <p class="store__text">{{ storeName(store.url) }}</p>
         <a :href="store.url" class="store__btn">Buy</a>
       </a>
     </div>
@@ -31,8 +30,31 @@ const props = defineProps({
   list: Array
 })
 
-function hostName (store) {
-  return new URL(store)
+function storeName (store) {
+  const hostname = new URL(store).hostname
+
+  switch (hostname) {
+    case 'apps.apple.com':
+      return 'App Store'
+    case 'store.playstation.com':
+      return 'PlayStation'
+    case 'www.microsoft.com':
+      return 'Microsoft'
+    case 'store.steampowered.com':
+      return 'Steam'
+    case 'www.gog.com':
+      return 'GOG'
+    case 'marketplace.xbox.com':
+      return 'Xbox'
+    case 'www.nintendo.com':
+      return 'Nintendo'
+    case 'play.google.com':
+      return 'Google Play'
+    case 'www.epicgames.com':
+      return 'Epic Games'
+    default:
+      return 'Some kind of store'
+  }
 }
 </script>
 
@@ -66,8 +88,8 @@ function hostName (store) {
       background: #3C4464;
       color: inherit;
 
-      &__icon {
-        background: rgba(39, 41, 63);
+      &__logo {
+        // background: rgba(39, 41, 63);
         width: 18px;
         height: 18px;
       }
