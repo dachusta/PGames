@@ -25,33 +25,37 @@
           :list="gameStores.results"
         />
         <div class="container--column container--dprug">
-          <div class="developers">
-            <div class="developers__title">
-              Developers:
+          <div class="container--column">
+            <div class="developers">
+              <div class="developers__title">
+                Developers:
+              </div>
+              <div
+                class="developer"
+                v-for="developer in gameItem.developers"
+                :key="developer.id"
+              >{{ developer.name }}</div>
             </div>
-            <div
-              class="developer"
-              v-for="developer in gameItem.developers"
-              :key="developer.id"
-            >{{ developer.name }}</div>
-          </div>
-          <div class="publishers">
-            <div class="publishers__title">
-              Publishers:
+            <div class="publishers">
+              <div class="publishers__title">
+                Publishers:
+              </div>
+              <div
+                class="publisher"
+                v-for="publisher in gameItem.publishers"
+                :key="publisher.id"
+              >{{ publisher.name }}</div>
             </div>
-            <div
-              class="publisher"
-              v-for="publisher in gameItem.publishers"
-              :key="publisher.id"
-            >{{ publisher.name }}</div>
           </div>
-          <div class="released">
-            <div class="released__title">Released:</div>
-            <div class="released__date">{{ gameItem.released }}</div>
-          </div>
-          <div class="updated">
-            <div class="updated__title">Updated:</div>
-            <div class="updated__date">{{ gameItem?.updated }}</div>
+          <div class="container--column">
+            <div class="released">
+              <div class="released__title">Released:</div>
+              <div class="released__date">{{ released }}</div>
+            </div>
+            <div class="updated">
+              <div class="updated__title">Updated:</div>
+              <div class="updated__date">{{ updated }}</div>
+            </div>
           </div>
           <div class="genres">
             <div class="genres__title">
@@ -65,6 +69,7 @@
           </div>
         </div>
         <div class="container container--rating">
+          <!-- circular progress bar -->
           <div v-if="ratingPercent" class="rating">
             <div class="percent" :style="{'--clr':'#04fc43', '--num': ratingPercent}">
               <div class="dot"></div>
@@ -147,6 +152,7 @@ import VAchievements from '@/components/GameDetails/VAchievements.vue'
 // const props = defineProps({
 //   id: String
 // })
+
 const ratingPercent = computed(() => Math.round((100 / 5) * gameItem.value.rating))
 watch(() => ratingPercent, (first) => {
   console.log(first)
@@ -159,6 +165,19 @@ const gameStores = ref([])
 const gameAchievements = ref([])
 const gameMovies = ref([])
 const route = useRoute()
+
+function dtFormat (date) {
+  const handler = (d) => d < 10 ? '0' + d : d
+
+  date = new Date(date)
+  const year = date.getFullYear()
+  const month = handler(date.getMonth() + 1)
+  const day = handler(date.getDate())
+
+  return day + '.' + month + '.' + year
+}
+const released = computed(() => dtFormat(gameItem.value.released))
+const updated = computed(() => dtFormat(gameItem.value.updated))
 
 console.log(route.params.id)
 
@@ -293,11 +312,12 @@ onMounted(
 
     .stores {
       grid-area: stores;
-      max-height: 346px;
+      max-height: 368px;
     }
 
     .container--dprug {
       grid-area: dprug;
+      justify-content: space-between;
     }
 
     .container--rating {
@@ -305,6 +325,7 @@ onMounted(
       position: relative;
       display: flex;
       align-content: flex-start;
+      justify-content: flex-end;
       flex-wrap: wrap;
       max-width: 250px;
       gap: 10px;
@@ -417,10 +438,6 @@ onMounted(
         p {
           margin: 0;
         }
-      }
-
-      .metacritic {
-
       }
     }
 
