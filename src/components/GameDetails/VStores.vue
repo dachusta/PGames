@@ -10,9 +10,9 @@
       >
         <img
           class="store__logo"
-          :src="require('@/assets/stores/' + nameLogo(store.url))"
-          :alt="nameLogo(store.url)"
-        >
+          :src="require('@/assets/stores/' + fileName(store.url))"
+          :alt="fileName(store.url)"
+        />
         <p class="store__text">{{ storeName(store.url) }}</p>
         <a :href="store.url" class="store__btn">Buy</a>
       </a>
@@ -26,7 +26,7 @@ const props = defineProps({
   list: Array
 })
 
-function nameLogo (store) {
+function fileName (store) {
   const hostname = new URL(store).hostname
 
   switch (hostname) {
@@ -108,7 +108,7 @@ function storeName (store) {
       align-items: center;
       gap: 10px;
       padding: 10px 0px 10px 15px;
-      background: #3C4464;
+      background: #3c4464;
       color: inherit;
 
       &__logo {
