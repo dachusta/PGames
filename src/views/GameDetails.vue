@@ -63,22 +63,46 @@
               :key="genre.id"
             >{{ genre.name }}</div>
           </div>
-          <div class="tags">
-            <div class="tags__title">
-              Tags
-            </div>
-            <div
-              class="tag"
-              v-for="tag in gameItem.tags"
-              :key="tag.id"
-            >{{ tag.name }}</div>
-          </div>
         </div>
         <div class="container container--rating">
-          <div class="rating">Rating: {{ gameItem.rating }}</div>
-          <div class="metacritic">Metacritic: {{ gameItem.metacritic }}</div>
-          <div class="name-">Esrb rating: {{ gameItem.esrb_rating.name }}</div>
-          <div class="name-">Playtime: {{ gameItem.playtime }}</div>
+          <div v-if="ratingPercent" class="rating">
+            <div class="percent" :style="{'--clr':'#04fc43', '--num': ratingPercent}">
+              <div class="dot"></div>
+              <svg>
+                <circle cx="50" cy="50" r="50"></circle>
+                <circle cx="50" cy="50" r="50"></circle>
+              </svg>
+              <div class="number">
+                <h2>{{ ratingPercent }}</h2>
+                <p>Rating</p>
+              </div>
+            </div>
+          </div>
+          <div v-if="gameItem.metacritic" class="metacritic">
+            <div class="percent" :style="{'--clr':'#04fc43', '--num': gameItem.metacritic}">
+              <div class="dot"></div>
+              <svg>
+                <circle cx="50" cy="50" r="50"></circle>
+                <circle cx="50" cy="50" r="50"></circle>
+              </svg>
+              <div class="number">
+                <h2>{{ gameItem.metacritic }}</h2>
+                <p>Metacritic</p>
+              </div>
+            </div>
+          </div>
+          <div class="esrb-rating">Esrb rating: {{ gameItem.esrb_rating?.name }}</div>
+          <div class="playtime">Playtime: {{ gameItem.playtime }}</div>
+        </div>
+        <div class="tags">
+          <div class="tags__title">
+            Tags:
+          </div>
+          <div
+            class="tag"
+            v-for="tag in gameItem.tags"
+            :key="tag.id"
+          >{{ tag.name }}</div>
         </div>
       </div>
       <div class="additional">
@@ -110,7 +134,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import TheSidebar from '@/components/TheSidebar.vue'
 import VScreenshots from '@/components/GameDetails/VScreenshots.vue'
@@ -123,7 +147,10 @@ import VAchievements from '@/components/GameDetails/VAchievements.vue'
 // const props = defineProps({
 //   id: String
 // })
-
+const ratingPercent = computed(() => Math.round((100 / 5) * gameItem.value.rating))
+watch(() => ratingPercent, (first) => {
+  console.log(first)
+})
 const gameItem = ref({})
 const gameScreenshots = ref([])
 const gameAdditions = ref([])
@@ -251,7 +278,7 @@ onMounted(
     grid-template-areas:
       "title title title"
       "stores dprug rating"
-      "stores dprug rating";
+      "stores tags tags";
     grid-template-columns: 320px 1fr;
     grid-template-rows: max-content;
     gap: 20px;
@@ -275,23 +302,132 @@ onMounted(
 
     .container--rating {
       grid-area: rating;
+      position: relative;
       display: flex;
       align-content: flex-start;
-      gap: 10px;
       flex-wrap: wrap;
       max-width: 250px;
+      gap: 10px;
 
       > div {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         width: 120px;
         height: 120px;
         background: rgba(39, 41, 63, 0.75);
       }
+
+      .rating .percent, .metacritic .percent {
+        position: relative;
+        width: 110px;
+        height: 110px;
+        // background: red;
+
+        .dot {
+          position: absolute;
+          inset: 5px;
+          z-index: 10;
+          transform: rotate(calc(3.6deg * var(--num)));
+          /* 360deg / 100 = 3.6 */
+
+          animation: animateDot 2s linear forwards;
+
+          @keyframes animateDot {
+            0% {
+              transform: rotate(0deg);
+            }
+            100% {
+              transform:  rotate(calc(3.6deg * var(--num)));
+            }
+          }
+
+          &::before {
+            content: '';
+            position: absolute;
+            top: -7.5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: var(--clr);
+            box-shadow:  0 0 15px var(--clr),
+            0 0 45px var(--clr);
+          }
+        }
+
+        svg {
+          position: relative;
+          width: 110px;
+          height: 110px;
+          transform: rotate(270deg);
+
+          circle {
+            width: 100%;
+            height: 100%;
+            fill: transparent;
+            stroke-width: 5;
+            stroke: #1C1C2C;
+            transform: translate(5px, 5px);
+
+            &:nth-child(2) {
+              stroke: var(--clr);
+              // Math.PI * (d || (r*2))
+              stroke-dasharray: 314;
+              stroke-dashoffset: calc(314 - (314 * var(--num)) / 100);
+
+              opacity: 0;
+              animation: fadeIn 1s linear forwards;
+              animation-delay: 2.5s;
+            }
+
+            @keyframes fadeIn {
+              0% {
+                opacity: 0;
+              }
+              100% {
+                opacity: 1;
+              }
+            }
+          }
+        }
+
+        .number {
+          position: absolute;
+          inset: 0;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-direction: column;
+
+          opacity: 0;
+          animation: fadeIn 1s linear forwards;
+          animation-delay: 2.5s;
+        }
+
+        h2 {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          margin: 0;
+        }
+
+        p {
+          margin: 0;
+        }
+      }
+
+      .metacritic {
+
+      }
     }
 
     .tags {
-      // grid-area: tags;
+      grid-area: tags;
       // max-height: 202px;
-      max-height: 142px;
+      max-height: 88px;
       overflow: hidden;
     }
   }
