@@ -45,9 +45,11 @@ const props = defineProps({
 
   &__title {
     display: flex;
-    padding: 3px 10px;
     justify-self: flex-start;
-    font-size: 14px;
+    padding: 5px 20px;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 1px;
     background: rgba(102, 204, 51, 0.75);
   }
 
