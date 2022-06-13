@@ -8,15 +8,11 @@
         v-for="store in props.list"
         :key="store.id"
       >
-        <img v-if="storeName(store.url) === 'App Store'" class="store__logo" src="@/assets/stores/appstore.png" alt="">
-        <img v-else-if="storeName(store.url) === 'PlayStation'" class="store__logo" src="@/assets/stores/playstation.png" alt="">
-        <img v-else-if="storeName(store.url) === 'Microsoft'" class="store__logo" src="@/assets/stores/microsoft.png" alt="">
-        <img v-else-if="storeName(store.url) === 'Steam'" class="store__logo" src="@/assets/stores/steam.png" alt="">
-        <img v-else-if="storeName(store.url) === 'GOG'" class="store__logo" src="@/assets/stores/gog.png" alt="">
-        <img v-else-if="storeName(store.url) === 'Xbox'" class="store__logo" src="@/assets/stores/xbox.png" alt="">
-        <img v-else-if="storeName(store.url) === 'Nintendo'" class="store__logo" src="@/assets/stores/nintendo.png" alt="">
-        <img v-else-if="storeName(store.url) === 'Google Play'" class="store__logo" src="@/assets/stores/googleplay.png" alt="">
-        <img v-else-if="storeName(store.url) === 'Epic Games'" class="store__logo" src="@/assets/stores/epicgames.png" alt="">
+        <img
+          class="store__logo"
+          :src="require('@/assets/stores/' + nameLogo(store.url))"
+          :alt="nameLogo(store.url)"
+        >
         <p class="store__text">{{ storeName(store.url) }}</p>
         <a :href="store.url" class="store__btn">Buy</a>
       </a>
@@ -29,6 +25,31 @@
 const props = defineProps({
   list: Array
 })
+
+function nameLogo (store) {
+  const hostname = new URL(store).hostname
+
+  switch (hostname) {
+    case 'apps.apple.com':
+      return 'appstore.png'
+    case 'store.playstation.com':
+      return 'playstation.png'
+    case 'www.microsoft.com':
+      return 'microsoft.png'
+    case 'store.steampowered.com':
+      return 'steam.png'
+    case 'www.gog.com':
+      return 'gog.png'
+    case 'marketplace.xbox.com':
+      return 'xbox.png'
+    case 'www.nintendo.com':
+      return 'nintendo.png'
+    case 'play.google.com':
+      return 'googleplay.png'
+    case 'www.epicgames.com':
+      return 'epicgames.png'
+  }
+}
 
 function storeName (store) {
   const hostname = new URL(store).hostname
@@ -69,8 +90,10 @@ function storeName (store) {
   &__title {
     display: flex;
     justify-self: flex-start;
-    padding: 3px 10px;
-    font-size: 14px;
+    padding: 5px 20px;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 1px;
     background: rgba(102, 204, 51, 0.75);
   }
 
