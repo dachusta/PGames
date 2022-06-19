@@ -96,8 +96,15 @@
               </div>
             </div>
           </div>
-          <div class="esrb-rating">Esrb rating: {{ gameItem.esrb_rating?.name }}</div>
-          <div class="playtime">Playtime: {{ gameItem.playtime }}</div>
+          <div
+            v-if="gameItem.esrb_rating?.name"
+            class="esrb-rating"
+          >
+            <img :src="require(`@/assets/esrb/${gameItem.esrb_rating?.name}.png`)" alt="">
+          </div>
+          <div v-if="gameItem.playtime" class="playtime">
+            <IconTimer :time="gameItem.playtime"/>
+          </div>
         </div>
         <div class="tags">
           <div class="tags__title">
@@ -112,18 +119,22 @@
       </div>
       <div class="additional">
         <VDescription
+          v-if="gameItem.description_raw?.length"
           class="description"
           :text="gameItem.description_raw"
         />
         <VAdditions
+          v-if="gameAdditions.results?.length"
           class="additions"
           :list="gameAdditions.results"
         />
         <VGameSeries
+          v-if="gameSeries.results?.length"
           class="game-series"
           :list="gameSeries.results"
         />
         <VAchievements
+          v-if="gameAchievements.results?.length"
           class="achievements"
           :list="gameAchievements.results"
         />
@@ -148,6 +159,7 @@ import VDescription from '@/components/GameDetails/VDescription.vue'
 import VAdditions from '@/components/GameDetails/VAdditions.vue'
 import VGameSeries from '@/components/GameDetails/VGameSeries.vue'
 import VAchievements from '@/components/GameDetails/VAchievements.vue'
+import IconTimer from '@/components/icons/IconTimer.vue'
 
 // const props = defineProps({
 //   id: String

@@ -10,11 +10,11 @@
       >
         <img
           class="store__logo"
-          :src="require('@/assets/stores/' + fileName(store.url))"
+          :src="require(`@/assets/stores/${fileName(store.url)}`)"
           :alt="fileName(store.url)"
         />
         <p class="store__text">{{ storeName(store.url) }}</p>
-        <a :href="store.url" class="store__btn">Buy</a>
+        <a class="store__btn" :href="store.url">Buy</a>
       </a>
     </div>
   </div>
@@ -107,9 +107,12 @@ function storeName (store) {
       display: flex;
       align-items: center;
       gap: 10px;
-      padding: 10px 0px 10px 15px;
+      padding: 0px 0px 0px 15px;
       background: #3c4464;
       color: inherit;
+      text-decoration: none;
+
+      transition: transform .15s ease, box-shadow .2s ease;
 
       &__logo {
         // background: rgba(39, 41, 63);
@@ -124,10 +127,23 @@ function storeName (store) {
 
       &__btn {
         margin-left: auto;
-        padding: 3px 10px;
+        padding: 10px 10px;
         font-size: 12px;
+        font-weight: 500;
+        letter-spacing: 1px;
         background: rgba(102, 204, 51, 0.75);
         color: inherit;
+        text-decoration: none;
+      }
+
+      &:hover {
+        transform: scale(101%);
+        box-shadow: 0px 0px 5px 1px rgba(99, 163, 236, 0.75);
+      }
+
+      &:focus {
+        transform: scale(100%);
+        box-shadow: 0px 0px 5px 1px rgba(99, 163, 236, 0.50);
       }
     }
   }

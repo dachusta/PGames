@@ -5,9 +5,9 @@
     </div>
     <div class="game-series__list">
       <div
-        class="game"
         v-for="series in props.list"
         :key="series.id"
+        class="game"
       >
         <img
           class="game__img"

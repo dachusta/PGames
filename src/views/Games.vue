@@ -34,6 +34,7 @@
         />
       </main>
       <footer class="footer">
+        <VPagination />
         ...pagination...
       </footer>
     </div>
@@ -46,6 +47,7 @@ import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import GameItem from '@/components/Games/GameItem.vue'
 import TheSidebar from '@/components/TheSidebar.vue'
+import VPagination from '@/components/VPagination.vue'
 
 // const emit = defineEmits(['change', 'delete'])
 
