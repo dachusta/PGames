@@ -125,7 +125,7 @@ function endScroll () {
 }
 
 // ***********************
-const isFullScreen = ref(true)
+const isFullScreen = ref(false)
 const screenIndex = ref(0)
 
 const showFullScreen = () => {
