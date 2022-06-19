@@ -25,7 +25,10 @@
 <script setup>
 // eslint-disable-next-line
 const props = defineProps({
-  list: Array
+  list: {
+    type: Array,
+    default: () => []
+  }
 })
 
 </script>

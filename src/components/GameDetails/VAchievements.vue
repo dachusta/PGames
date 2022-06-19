@@ -4,9 +4,9 @@
       Achievements:
     </div>
     <div
-      class="achievement"
       v-for="achievement in props.list"
       :key="achievement.id"
+      class="achievement"
     >
       <img
         class="achievement__img"
@@ -31,7 +31,10 @@
 <script setup>
 // eslint-disable-next-line
 const props = defineProps({
-  list: Array
+  list: {
+    type: Array,
+    default: () => []
+  }
 })
 
 </script>

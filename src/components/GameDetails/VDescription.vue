@@ -3,14 +3,19 @@
     <div class="description__title">
       About
     </div>
-    <p class="description__text">{{ props.text }}</p>
+    <p class="description__text">
+      {{ props.text }}
+    </p>
   </div>
 </template>
 
 <script setup>
 // eslint-disable-next-line
 const props = defineProps({
-  text: String
+  text: {
+    type: String,
+    default: null
+  }
 })
 
 </script>

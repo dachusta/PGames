@@ -1,20 +1,25 @@
 <template>
   <div class="stores">
-    <div class="stores__title">Where to buy:</div>
+    <div class="stores__title">
+      Where to buy:
+    </div>
     <div class="stores__list">
       <a
-        :href="store.url"
-        class="store"
         v-for="store in props.list"
         :key="store.id"
+        :href="store.url"
+        class="store"
       >
         <img
           class="store__logo"
           :src="require(`@/assets/stores/${fileName(store.url)}`)"
           :alt="fileName(store.url)"
-        />
+        >
         <p class="store__text">{{ storeName(store.url) }}</p>
-        <a class="store__btn" :href="store.url">Buy</a>
+        <a
+          class="store__btn"
+          :href="store.url"
+        >Buy</a>
       </a>
     </div>
   </div>
@@ -23,7 +28,10 @@
 <script setup>
 // eslint-disable-next-line
 const props = defineProps({
-  list: Array
+  list: {
+    type: Array,
+    default: () => []
+  }
 })
 
 function fileName (store) {

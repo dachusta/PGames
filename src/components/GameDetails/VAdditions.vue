@@ -4,9 +4,9 @@
       Additions:
     </div>
     <a
-      class="addition"
       v-for="addition in props.list"
       :key="addition.id"
+      class="addition"
     >
       <img
         class="addition__img"
@@ -21,7 +21,10 @@
 <script setup>
 // eslint-disable-next-line
 const props = defineProps({
-  list: Array
+  list: {
+    type: Array,
+    default: () => []
+  }
 })
 
 </script>

@@ -5,32 +5,41 @@
     />
     <div class="page">
       <header class="header">
-        <div class="title"></div>
+        <div class="title" />
         <div class="control-bar">
           <div class="search">
-            <input type="text" />
+            <input type="text">
           </div>
           <div class="sort">
-            <select name id>
-              <option value>1</option>
-              <option value>2</option>
-              <option value>3</option>
+            <select
+              id
+              name
+            >
+              <option value>
+                1
+              </option>
+              <option value>
+                2
+              </option>
+              <option value>
+                3
+              </option>
             </select>
           </div>
-          <div class="display-mode"></div>
+          <div class="display-mode" />
         </div>
       </header>
       <main class="main">
         <GameItem
-          class="card game-item"
           v-for="game in gameList"
           :key="game.id"
-          @click="toGameDetails(game.id)"
-
+          class="card game-item"
           :screenshots="game.short_screenshots"
+
           :name="game.name"
           :rating="game.rating"
           :platforms="game.parent_platforms"
+          @click="toGameDetails(game.id)"
         />
       </main>
       <footer class="footer">

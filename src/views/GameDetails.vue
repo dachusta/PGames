@@ -1,152 +1,204 @@
 <template>
-<div class="wrapper">
-  <TheSidebar
-    class="sidebar"
-  />
-  <div
-    class="page"
-    :style="{ background: `no-repeat center url(${gameItem.background_image}) fixed` }"
-    style="background-size: cover;"
-  >
-    <header class="header">
-      search
-    </header>
-    <main class="main">
-      <VScreenshots
-        class="screenshots"
-        :list="gameScreenshots.results"
-      />
-      <!-- company -->
-      <div class="details">
-        <div class="title">{{ gameItem.name }}</div>
-        <!-- <img class="main-img" :src="gameItem.background_image" alt=""> -->
-        <VStores
-          class="stores"
-          :list="gameStores.results"
+  <div class="wrapper">
+    <TheSidebar
+      class="sidebar"
+    />
+    <div
+      class="page"
+      :style="{ background: `no-repeat center url(${gameItem.background_image}) fixed` }"
+      style="background-size: cover;"
+    >
+      <header class="header">
+        search
+      </header>
+      <main class="main">
+        <VScreenshots
+          class="screenshots"
+          :list="gameScreenshots.results"
         />
-        <div class="container--column container--dprug">
-          <div class="container--column">
-            <div class="developers">
-              <div class="developers__title">
-                Developers:
+        <!-- company -->
+        <div class="details">
+          <div class="title">
+            {{ gameItem.name }}
+          </div>
+          <!-- <img class="main-img" :src="gameItem.background_image" alt=""> -->
+          <VStores
+            class="stores"
+            :list="gameStores.results"
+          />
+          <div class="container--column container--dprug">
+            <div class="container--column">
+              <div class="developers">
+                <div class="developers__title">
+                  Developers:
+                </div>
+                <div
+                  v-for="developer in gameItem.developers"
+                  :key="developer.id"
+                  class="developer"
+                >
+                  {{ developer.name }}
+                </div>
+              </div>
+              <div class="publishers">
+                <div class="publishers__title">
+                  Publishers:
+                </div>
+                <div
+                  v-for="publisher in gameItem.publishers"
+                  :key="publisher.id"
+                  class="publisher"
+                >
+                  {{ publisher.name }}
+                </div>
+              </div>
+            </div>
+            <div class="container--column">
+              <div class="released">
+                <div class="released__title">
+                  Released:
+                </div>
+                <div class="released__date">
+                  {{ released }}
+                </div>
+              </div>
+              <div class="updated">
+                <div class="updated__title">
+                  Updated:
+                </div>
+                <div class="updated__date">
+                  {{ updated }}
+                </div>
+              </div>
+            </div>
+            <div class="genres">
+              <div class="genres__title">
+                Genres:
               </div>
               <div
-                class="developer"
-                v-for="developer in gameItem.developers"
-                :key="developer.id"
-              >{{ developer.name }}</div>
-            </div>
-            <div class="publishers">
-              <div class="publishers__title">
-                Publishers:
+                v-for="genre in gameItem.genres"
+                :key="genre.id"
+                class="genre"
+              >
+                {{ genre.name }}
               </div>
+            </div>
+          </div>
+          <div class="container container--rating">
+            <!-- circular progress bar -->
+            <div
+              v-if="ratingPercent"
+              class="rating"
+            >
               <div
-                class="publisher"
-                v-for="publisher in gameItem.publishers"
-                :key="publisher.id"
-              >{{ publisher.name }}</div>
-            </div>
-          </div>
-          <div class="container--column">
-            <div class="released">
-              <div class="released__title">Released:</div>
-              <div class="released__date">{{ released }}</div>
-            </div>
-            <div class="updated">
-              <div class="updated__title">Updated:</div>
-              <div class="updated__date">{{ updated }}</div>
-            </div>
-          </div>
-          <div class="genres">
-            <div class="genres__title">
-              Genres:
+                class="percent"
+                :style="{'--clr':'#04fc43', '--num': ratingPercent}"
+              >
+                <div class="dot" />
+                <svg>
+                  <circle
+                    cx="50"
+                    cy="50"
+                    r="50"
+                  />
+                  <circle
+                    cx="50"
+                    cy="50"
+                    r="50"
+                  />
+                </svg>
+                <div class="number">
+                  <h2>{{ ratingPercent }}</h2>
+                  <p>Rating</p>
+                </div>
+              </div>
             </div>
             <div
-              class="genre"
-              v-for="genre in gameItem.genres"
-              :key="genre.id"
-            >{{ genre.name }}</div>
-          </div>
-        </div>
-        <div class="container container--rating">
-          <!-- circular progress bar -->
-          <div v-if="ratingPercent" class="rating">
-            <div class="percent" :style="{'--clr':'#04fc43', '--num': ratingPercent}">
-              <div class="dot"></div>
-              <svg>
-                <circle cx="50" cy="50" r="50"></circle>
-                <circle cx="50" cy="50" r="50"></circle>
-              </svg>
-              <div class="number">
-                <h2>{{ ratingPercent }}</h2>
-                <p>Rating</p>
+              v-if="gameItem.metacritic"
+              class="metacritic"
+            >
+              <div
+                class="percent"
+                :style="{'--clr':'#04fc43', '--num': gameItem.metacritic}"
+              >
+                <div class="dot" />
+                <svg>
+                  <circle
+                    cx="50"
+                    cy="50"
+                    r="50"
+                  />
+                  <circle
+                    cx="50"
+                    cy="50"
+                    r="50"
+                  />
+                </svg>
+                <div class="number">
+                  <h2>{{ gameItem.metacritic }}</h2>
+                  <p>Metacritic</p>
+                </div>
               </div>
             </div>
-          </div>
-          <div v-if="gameItem.metacritic" class="metacritic">
-            <div class="percent" :style="{'--clr':'#04fc43', '--num': gameItem.metacritic}">
-              <div class="dot"></div>
-              <svg>
-                <circle cx="50" cy="50" r="50"></circle>
-                <circle cx="50" cy="50" r="50"></circle>
-              </svg>
-              <div class="number">
-                <h2>{{ gameItem.metacritic }}</h2>
-                <p>Metacritic</p>
-              </div>
+            <div
+              v-if="gameItem.esrb_rating?.name"
+              class="esrb-rating"
+            >
+              <img
+                :src="require(`@/assets/esrb/${gameItem.esrb_rating?.name}.png`)"
+                alt=""
+              >
+            </div>
+            <div
+              v-if="gameItem.playtime"
+              class="playtime"
+            >
+              <IconTimer :time="gameItem.playtime" />
             </div>
           </div>
-          <div
-            v-if="gameItem.esrb_rating?.name"
-            class="esrb-rating"
-          >
-            <img :src="require(`@/assets/esrb/${gameItem.esrb_rating?.name}.png`)" alt="">
-          </div>
-          <div v-if="gameItem.playtime" class="playtime">
-            <IconTimer :time="gameItem.playtime"/>
+          <div class="tags">
+            <div class="tags__title">
+              Tags:
+            </div>
+            <div
+              v-for="tag in gameItem.tags"
+              :key="tag.id"
+              class="tag"
+            >
+              {{ tag.name }}
+            </div>
           </div>
         </div>
-        <div class="tags">
-          <div class="tags__title">
-            Tags:
-          </div>
-          <div
-            class="tag"
-            v-for="tag in gameItem.tags"
-            :key="tag.id"
-          >{{ tag.name }}</div>
+        <div class="additional">
+          <VDescription
+            v-if="gameItem.description_raw?.length"
+            class="description"
+            :text="gameItem.description_raw"
+          />
+          <VAdditions
+            v-if="gameAdditions.results?.length"
+            class="additions"
+            :list="gameAdditions.results"
+          />
+          <VGameSeries
+            v-if="gameSeries.results?.length"
+            class="game-series"
+            :list="gameSeries.results"
+          />
+          <VAchievements
+            v-if="gameAchievements.results?.length"
+            class="achievements"
+            :list="gameAchievements.results"
+          />
         </div>
-      </div>
-      <div class="additional">
-        <VDescription
-          v-if="gameItem.description_raw?.length"
-          class="description"
-          :text="gameItem.description_raw"
-        />
-        <VAdditions
-          v-if="gameAdditions.results?.length"
-          class="additions"
-          :list="gameAdditions.results"
-        />
-        <VGameSeries
-          v-if="gameSeries.results?.length"
-          class="game-series"
-          :list="gameSeries.results"
-        />
-        <VAchievements
-          v-if="gameAchievements.results?.length"
-          class="achievements"
-          :list="gameAchievements.results"
-        />
-      </div>
-    </main>
-    <footer class="footer">
-      <!-- <div class="name">{{ gameItem.added }}</div> -->
-      <!-- <div class="name">{{ gameItem.added_by_status }}</div> -->
-      Made with love
-    </footer>
+      </main>
+      <footer class="footer">
+        <!-- <div class="name">{{ gameItem.added }}</div> -->
+        <!-- <div class="name">{{ gameItem.added_by_status }}</div> -->
+        Made with love
+      </footer>
+    </div>
   </div>
-</div>
 </template>
 
 <script setup>

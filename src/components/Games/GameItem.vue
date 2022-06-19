@@ -3,13 +3,19 @@
     <!-- <img :src="game.background_image" alt=""> -->
     <div class="card-top">
       <div class="wrap-img">
-        <img :src="props.screenshots[0].image" alt />
+        <img
+          :src="props.screenshots[0].image"
+          alt
+        >
       </div>
       <div class="row">
         <span class="name">{{ props.name }}</span>
-        <span class="rating" :style="{ background: ratingBG(props.rating) }">
+        <span
+          class="rating"
+          :style="{ background: ratingBG(props.rating) }"
+        >
           {{
-          props.rating
+            props.rating
           }}
         </span>
       </div>
@@ -17,9 +23,9 @@
     <!-- <div class="description"></div> -->
     <div class="platform-list">
       <span
-        class="platform-item"
         v-for="platform in props.platforms"
         :key="platform"
+        class="platform-item"
       >{{ platform.platform.name }}</span>
     </div>
   </div>
@@ -28,10 +34,22 @@
 <script setup>
 // eslint-disable-next-line
 const props = defineProps({
-  screenshots: String,
-  name: String,
-  rating: String,
-  platforms: String
+  screenshots: {
+    type: String,
+    default: null
+  },
+  name: {
+    type: String,
+    default: null
+  },
+  rating: {
+    type: String,
+    default: null
+  },
+  platforms: {
+    type: String,
+    default: null
+  }
 })
 
 function ratingBG (params) {

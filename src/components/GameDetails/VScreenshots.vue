@@ -7,8 +7,8 @@
       @click="showFullScreen()"
     >
     <div
-      class="screenshots__list"
       ref="screenshotsList"
+      class="screenshots__list"
       @mousedown="startScroll"
       @mousemove="moveScroll"
       @mouseup="endScroll"
@@ -23,7 +23,7 @@
         :alt="screenshotItem.id"
         @click="setScreenshot(screenshotItem.image)"
         @mousedown.prevent
-      />
+      >
     </div>
 
     <div
@@ -31,7 +31,11 @@
       class="full-screen__wrap"
       @click="hideFullScreen()"
     >
-      <div v-if="isFullScreen" class="full-screen"  @click.stop>
+      <div
+        v-if="isFullScreen"
+        class="full-screen"
+        @click.stop
+      >
         <header class="full-screen__header">
           <button
             class="btn-close"
@@ -41,12 +45,25 @@
           </button>
         </header>
         <main class="main">
-          <img :src="screenshot" alt="0">
+          <img
+            :src="screenshot"
+            alt="0"
+          >
         </main>
         <footer class="full-screen__footer">
-          <button class="btn-prev" @click="prevScreen">Prev</button>
+          <button
+            class="btn-prev"
+            @click="prevScreen"
+          >
+            Prev
+          </button>
           {{ screenIndex + 1 }} of {{ list.length }} screenshots
-          <button class="btn-next" @click="nextScreen">Next</button>
+          <button
+            class="btn-next"
+            @click="nextScreen"
+          >
+            Next
+          </button>
         </footer>
       </div>
     </div>
@@ -205,7 +222,7 @@ const hideFullScreen = () => {
         }
       }
     }
-    &__main {}
+    // &__main {}
     &__footer {
       display: flex;
       justify-content: space-between;
