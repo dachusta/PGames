@@ -43,7 +43,9 @@
         />
       </main>
       <footer class="footer">
-        <VPagination />
+        <VPagination
+          @set-current-page="setCurrentPage"
+        />
         ...pagination...
       </footer>
     </div>
@@ -69,9 +71,38 @@ const gameList = ref([])
 //   )
 // })
 
-async function api () {
-  const url =
-    'https://api.rawg.io/api/games?key=8f4899e2e65a42e58807bc9bbec35cca&page=1&page_size=40'
+// const currentPage = ref(1)
+
+const setCurrentPage = (page) => {
+  api({ page })
+}
+
+// const queryParam = {
+//   page: null,
+//   pageSize: null,
+//   search: null
+// }
+
+async function api (queryParam) {
+  const { page, pageSize, search, ordering } = queryParam || {}
+  const key = '8f4899e2e65a42e58807bc9bbec35cca'
+  let url = `https://api.rawg.io/api/games?key=${key}`
+
+  if (page) {
+    url += `&page=${page}`
+  }
+  if (pageSize) {
+    url += `&page_size=${pageSize}`
+  }
+  if (search) {
+    url += `&search=${search}`
+  }
+  // Available fields: name, released, added, created, updated, rating, metacritic.
+  // You can reverse the sort order adding a hyphen, for example: -released.
+  if (ordering) {
+    url += `&ordering=${ordering}`
+  }
+
   const response = await fetch(url)
   const commits = await response.json()
   console.log(commits)
@@ -80,7 +111,7 @@ async function api () {
 onMounted(api())
 
 function toGameDetails (id) {
-  router.push({ name: 'GameDetails', params: { id: id } })
+  router.push({ name: 'GameDetails', params: { id } })
 }
 </script>
 
