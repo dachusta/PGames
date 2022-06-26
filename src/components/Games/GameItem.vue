@@ -4,7 +4,7 @@
     <div class="card-top">
       <div class="wrap-img">
         <img
-          :src="props.screenshots[0].image"
+          :src="props.screenshots[0]?.image"
           alt
         >
       </div>
