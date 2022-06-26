@@ -23,6 +23,7 @@
           </div>
           <!-- <img class="main-img" :src="gameItem.background_image" alt=""> -->
           <VStores
+            v-if="gameStores.results?.length"
             class="stores"
             :list="gameStores.results"
           />
@@ -202,7 +203,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed, watch } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import TheSidebar from '@/components/TheSidebar.vue'
 import VScreenshots from '@/components/GameDetails/VScreenshots.vue'
@@ -250,7 +251,7 @@ async function api (id = 3498) {
   const response = await fetch(url)
   const commits = await response.json()
   gameItem.value = commits
-  console.log('gameItem', gameItem.value.results)
+  console.log('gameItem', gameItem.value)
 }
 async function apiScreenshots (id = 3498) {
   const url = `https://api.rawg.io/api/games/${id}/screenshots?key=8f4899e2e65a42e58807bc9bbec35cca`
@@ -300,15 +301,31 @@ async function apiMovies (id = 3498) {
   console.log('movies', gameMovies.value.results)
 }
 
-onMounted(
-  api(route.params.id),
-  apiScreenshots(route.params.id),
-  apiAdditions(route.params.id),
-  apiSeries(route.params.id),
-  apiStores(route.params.id),
-  apiAchievements(route.params.id),
-  apiMovies(route.params.id)
+watch(
+  () => route.params.id,
+  () => {
+    api(route.params.id)
+    apiScreenshots(route.params.id)
+    apiAdditions(route.params.id)
+    apiSeries(route.params.id)
+    apiStores(route.params.id)
+    apiAchievements(route.params.id)
+    apiMovies(route.params.id)
+
+    window.scrollTo(0, 0)
+  },
+  { deep: true }
 )
+
+// onMounted(
+api(route.params.id)
+apiScreenshots(route.params.id)
+apiAdditions(route.params.id)
+apiSeries(route.params.id)
+apiStores(route.params.id)
+apiAchievements(route.params.id)
+apiMovies(route.params.id)
+// )
 
 </script>
 
@@ -401,7 +418,7 @@ onMounted(
         align-items: center;
         width: 120px;
         height: 120px;
-        background: rgba(39, 41, 63, 0.75);
+        // background: rgba(39, 41, 63, 0.75);
       }
 
       .rating .percent, .metacritic .percent {
@@ -454,7 +471,7 @@ onMounted(
             height: 100%;
             fill: transparent;
             stroke-width: 5;
-            stroke: #1C1C2C;
+            stroke: rgba(39, 41, 63, 0.75);
             transform: translate(5px, 5px);
 
             &:nth-child(2) {
@@ -471,9 +488,11 @@ onMounted(
             @keyframes fadeIn {
               0% {
                 opacity: 0;
+                fill: transparent;
               }
               100% {
                 opacity: 1;
+                fill: rgba(39, 41, 63, 0.75);
               }
             }
           }
@@ -556,6 +575,6 @@ onMounted(
   grid-area: footer;
   padding: 20px;
   background: rgba(60, 68, 100, 0.7);
-  z-index: 1;
+  // z-index: 1;
 }
 </style>

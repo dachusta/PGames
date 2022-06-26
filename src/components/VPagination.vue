@@ -1,14 +1,21 @@
 <template>
   <div class="pagination">
+    <!-- :disabled="currentPage <= 1" -->
     <button
       class="btn-page previous"
-      :disabled="currentPage <= 1"
       @click="gotoPage(currentPage - 1)"
     >
-      svg arrow previous *********************************
+      prev
     </button>
 
     <button
+      class="btn-page"
+      :class="{ active: currentPage }"
+    >
+      {{ currentPage }}
+    </button>
+
+    <!-- <button
       v-if="orderPage(1) >= 1"
       class="btn-page"
       :class="{ active: currentPage === orderPage(1) }"
@@ -77,17 +84,17 @@
       @click="gotoPage(orderPage(7))"
     >
       {{ orderPage(7) }}
-    </button>
+    </button> -->
 
+    <!-- :disabled="totalPage <= currentPage" -->
     <button
       class="btn-page next"
-      :disabled="totalPage <= currentPage"
       @click="gotoPage(currentPage + 1)"
     >
-      svg arrow next *********************************
+      next
     </button>
 
-    <div class="pagination__show">
+    <!-- <div class="pagination__show">
       <span>Show:</span>
       <select
         :key="show"
@@ -97,7 +104,7 @@
         @selected="selectedShow"
       />
       <span>{{ totalItems }}</span>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -121,19 +128,19 @@ const props = defineProps({
 })
 
 // eslint-disable-next-line
-const emit = defineEmits(['visibleList'])
+const emit = defineEmits(['visibleList', 'setCurrentPage'])
 
 const show = ref(25)
 
 const currentPage = ref(1)
 
-const totalItems = computed(() => props.list?.length || 0)
+// const totalItems = computed(() => props.list?.length || 0)
 
-const totalPage = computed(
-  () => props.list?.length
-    ? Math.ceil(props.list?.length / show.value)
-    : 0
-)
+// const totalPage = computed(
+//   () => props.list?.length
+//     ? Math.ceil(props.list?.length / show.value)
+//     : 0
+// )
 
 const visibleList = computed(() => {
   if (props.list?.length) {
@@ -148,58 +155,61 @@ const visibleList = computed(() => {
 watch(() => props.list, () => {
   emit('visibleList', visibleList)
 })
-watch(() => currentPage, () => {
+watch(() => currentPage.value, () => {
   emit('visibleList', visibleList)
+  console.log(currentPage.value)
+  emit('setCurrentPage', currentPage.value)
 })
 watch(() => show, () => {
   emit('visibleList', visibleList)
 })
 
-const selectedShow = (value) => {
-  show.value = value
-}
+// const selectedShow = (value) => {
+//   show.value = value
+// }
 
-const orderPage = (index) => {
-  switch (index) {
-    case 1:
-      return 1
-    case 2:
-      if (
-        (currentPage.value <= 3 && totalPage.value.value >= 2) ||
-        (totalPage.value <= 7 && totalPage.value >= 2)
-      ) return 2
-      else if (currentPage.value <= 1) return currentPage.value
-      else return '...'
-    case 3:
-      if (
-        (currentPage.value <= 3 && totalPage.value >= 3) ||
-        (totalPage.value <= 7 && totalPage.value >= 3)
-      ) return 3
-      else if (totalPage.value - 4 >= currentPage.value) return currentPage.value
-      else return totalPage.value - 4
-    case 4:
-      if (
-        (currentPage.value <= 3 && totalPage.value >= 4) ||
-        (totalPage.value <= 7 && totalPage.value >= 4)
-      ) return 4
-      else if (totalPage.value - 4 >= currentPage.value) return currentPage.value + 1
-      else return totalPage.value - 3
-    case 5:
-      if (
-        (currentPage.value <= 3 && totalPage.value >= 5) ||
-        (totalPage.value <= 7 && totalPage.value >= 5)
-      ) return 5
-      else if (totalPage.value - 4 >= currentPage.value) return currentPage.value + 2
-      else return totalPage.value - 2
-    case 6:
-      if (totalPage.value - 4 <= currentPage.value || totalPage.value <= 7) return totalPage.value - 1
-      else return '...'
-    case 7:
-      return totalPage.value
-    default:
-      return 1
-  }
-}
+// Order to number page
+// const orderPage = (index) => {
+//   switch (index) {
+//     case 1:
+//       return 1
+//     case 2:
+//       if (
+//         (currentPage.value <= 3 && totalPage.value >= 2) ||
+//         (totalPage.value <= 7 && totalPage.value >= 2)
+//       ) return 2
+//       else if (currentPage.value <= 1) return currentPage.value
+//       else return '...'
+//     case 3:
+//       if (
+//         (currentPage.value <= 3 && totalPage.value >= 3) ||
+//         (totalPage.value <= 7 && totalPage.value >= 3)
+//       ) return 3
+//       else if (totalPage.value - 4 >= currentPage.value) return currentPage.value
+//       else return totalPage.value - 4
+//     case 4:
+//       if (
+//         (currentPage.value <= 3 && totalPage.value >= 4) ||
+//         (totalPage.value <= 7 && totalPage.value >= 4)
+//       ) return 4
+//       else if (totalPage.value - 4 >= currentPage.value) return currentPage.value + 1
+//       else return totalPage.value - 3
+//     case 5:
+//       if (
+//         (currentPage.value <= 3 && totalPage.value >= 5) ||
+//         (totalPage.value <= 7 && totalPage.value >= 5)
+//       ) return 5
+//       else if (totalPage.value - 4 >= currentPage.value) return currentPage.value + 2
+//       else return totalPage.value - 2
+//     case 6:
+//       if (totalPage.value - 4 <= currentPage.value || totalPage.value <= 7) return totalPage.value - 1
+//       else return '...'
+//     case 7:
+//       return totalPage.value
+//     default:
+//       return 1
+//   }
+// }
 const gotoPage = (numberPage) => {
   currentPage.value = numberPage
 }
@@ -211,10 +221,10 @@ const gotoPage = (numberPage) => {
   align-items: center;
   justify-content: center;
   gap: 0px 10px;
-  margin: 10px 30px 0px 30px;
+  margin: 30px auto 0px auto;
   padding: 5px 100px;
   font-size: 14px;
-  background: #ffffff;
+  background: #3c4464;
   border-radius: 10px;
   box-shadow: 1px 1px 3px 0px rgba(0, 0, 0, 0.15);
 }
@@ -222,9 +232,13 @@ const gotoPage = (numberPage) => {
   width: 40px;
   height: 30px;
   padding: 0;
+  border: 1px solid #000000;
+  background: #1C1C2C;
+  color: #ffffff;
+  cursor: pointer;
 
   &.active {
-    background: #4b8edd;
+    background: #63a3ec;
     color: #ffffff;
   }
 

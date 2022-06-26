@@ -48,6 +48,7 @@
           <img
             :src="screenshot"
             alt="0"
+            @click="nextScreen"
           >
         </main>
         <footer class="full-screen__footer">
