@@ -11,11 +11,12 @@
         class="store"
       >
         <img
+          v-if="fileName(store.url) !== 'Some kind of store'"
           class="store__logo"
-          :src="require(`@/assets/stores/${fileName(store.url)}`)"
+          :src="require(`@/assets/stores/${fileName(store.url)}.png`)"
           :alt="fileName(store.url)"
         >
-        <p class="store__text">{{ storeName(store.url) }}</p>
+        <p class="store__text">{{ fileName(store.url) }}</p>
         <a
           class="store__btn"
           :href="store.url"
@@ -34,32 +35,34 @@ const props = defineProps({
   }
 })
 
+// function fileName (store) {
+//   const hostname = new URL(store).hostname
+
+//   switch (hostname) {
+//     case 'apps.apple.com':
+//       return 'appstore.png'
+//     case 'store.playstation.com':
+//       return 'playstation.png'
+//     case 'www.microsoft.com':
+//       return 'microsoft.png'
+//     case 'store.steampowered.com':
+//       return 'steam.png'
+//     case 'www.gog.com':
+//       return 'gog.png'
+//     case 'marketplace.xbox.com':
+//       return 'xbox.png'
+//     case 'www.nintendo.com':
+//       return 'nintendo.png'
+//     case 'play.google.com':
+//       return 'googleplay.png'
+//     case 'www.epicgames.com':
+//       return 'epicgames.png'
+//     default:
+//       return null
+//   }
+// }
+
 function fileName (store) {
-  const hostname = new URL(store).hostname
-
-  switch (hostname) {
-    case 'apps.apple.com':
-      return 'appstore.png'
-    case 'store.playstation.com':
-      return 'playstation.png'
-    case 'www.microsoft.com':
-      return 'microsoft.png'
-    case 'store.steampowered.com':
-      return 'steam.png'
-    case 'www.gog.com':
-      return 'gog.png'
-    case 'marketplace.xbox.com':
-      return 'xbox.png'
-    case 'www.nintendo.com':
-      return 'nintendo.png'
-    case 'play.google.com':
-      return 'googleplay.png'
-    case 'www.epicgames.com':
-      return 'epicgames.png'
-  }
-}
-
-function storeName (store) {
   const hostname = new URL(store).hostname
 
   switch (hostname) {
