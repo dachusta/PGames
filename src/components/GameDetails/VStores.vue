@@ -96,6 +96,7 @@ function fileName (store) {
   align-content: flex-start;
   gap: 10px;
   background: rgba(39, 41, 63, 0.75);
+  box-shadow: inset 0 0 5px 0px rgba(0, 0, 0, 0.3);
   // height: 145px;
 
   &__title {
@@ -119,9 +120,11 @@ function fileName (store) {
       align-items: center;
       gap: 10px;
       padding: 0px 0px 0px 15px;
+      // border-radius: 2px;
       background: #3c4464;
       color: inherit;
       text-decoration: none;
+      overflow: hidden;
 
       transition: transform .15s ease, box-shadow .2s ease;
 

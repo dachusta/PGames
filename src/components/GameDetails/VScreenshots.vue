@@ -53,14 +53,14 @@
         </main>
         <footer class="full-screen__footer">
           <button
-            class="btn-prev"
+            class="btn btn-prev"
             @click="prevScreen"
           >
             Prev
           </button>
           {{ screenIndex + 1 }} of {{ list.length }} screenshots
           <button
-            class="btn-next"
+            class="btn btn-next"
             @click="nextScreen"
           >
             Next
@@ -134,22 +134,42 @@ const showFullScreen = () => {
   screenIndex.value = props.list.findIndex(e => e.image === screenshot.value)
   emit('isFullScreen', isFullScreen.value)
 }
-const nextScreen = () => {
-  if (!props.list.length || screenIndex.value >= props.list.length - 1) return
-
-  screenIndex.value++
-  setScreenshot(props.list[screenIndex.value].image)
-}
 const prevScreen = () => {
   if (!props.list.length || screenIndex.value <= 0) return
 
   screenIndex.value--
   setScreenshot(props.list[screenIndex.value].image)
 }
+const nextScreen = () => {
+  if (!props.list.length || screenIndex.value >= props.list.length - 1) return
+
+  screenIndex.value++
+  setScreenshot(props.list[screenIndex.value].image)
+}
 const hideFullScreen = () => {
   isFullScreen.value = false
   emit('isFullScreen', isFullScreen.value)
 }
+const keyboardNav = (el) => {
+  // el.preventDefault()
+  if (isFullScreen.value) {
+    // keypress
+    if (el.key === 'ArrowLeft') {
+      prevScreen()
+    }
+    if (el.key === 'ArrowRight') {
+      nextScreen()
+    }
+    if (el.key === 'Escape') {
+      hideFullScreen()
+    }
+    console.log(el.key)
+  }
+  // emit('isFullScreen', isFullScreen.value)
+}
+
+document.addEventListener('keydown', keyboardNav)
+
 // const findIndex = ref(props.list.findIndex(e => e.image === screenshot.value))
 // console.log(findIndex)
 </script>
@@ -158,6 +178,7 @@ const hideFullScreen = () => {
 .screenshots {
   position: relative;
   background: rgba(60, 68, 100, 0.7);
+  user-select: none;
 
   &__display {
     width: 640px;
@@ -227,6 +248,17 @@ const hideFullScreen = () => {
     &__footer {
       display: flex;
       justify-content: space-between;
+      align-items: center;
+      margin-top: 5px;
+      font-size: 14px;
+
+      .btn {
+        padding: 4px 8px;
+        color: #1C1C2C;
+        background: #CBDBEE;
+        border: none;
+        cursor: pointer;
+      }
     }
 
     img {

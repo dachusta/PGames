@@ -46,7 +46,6 @@
         <VPagination
           @set-current-page="setCurrentPage"
         />
-        ...pagination...
       </footer>
     </div>
   </div>
@@ -83,6 +82,9 @@ const setCurrentPage = (page) => {
 //   search: null
 // }
 
+// const possibleNumberOfGames = ref(812156)
+// const pageSize = ref(20)
+
 async function api (queryParam) {
   const { page, pageSize, search, ordering } = queryParam || {}
   const key = '8f4899e2e65a42e58807bc9bbec35cca'
@@ -105,6 +107,7 @@ async function api (queryParam) {
 
   const response = await fetch(url)
   const commits = await response.json()
+  // const commits = response.json()
   console.log(commits)
   gameList.value = commits.results
 }
@@ -122,12 +125,12 @@ function toGameDetails (id) {
   padding: 30px;
 }
 .header {
-  height: 160px;
+  height: 100px;
 }
 .main {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
-  gap: 30px;
+  gap: 20px;
 }
 @media (max-width: 1655px) {
   .main {

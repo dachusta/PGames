@@ -421,6 +421,10 @@ apiMovies(route.params.id)
         // background: rgba(39, 41, 63, 0.75);
       }
 
+      .esrb-rating img {
+        height: 100%;
+      }
+
       .rating .percent, .metacritic .percent {
         position: relative;
         width: 110px;
